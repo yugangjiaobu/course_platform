@@ -1,0 +1,49 @@
+html,
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	height: 100%;
+	width: 100%;
+	background-color: beige;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+
+#glory {
+	height: 80vh;
+	width: 80vw;
+	display: flex;
+	justify-content:space-evenly;
+	align-items: center;
+}
+
+.pic {
+	height: 90%;
+	width: 7%;
+	background-color: beige;
+	border-radius: 3vw;
+	cursor: pointer;
+	transition:width 1s ;
+	position: relative;
+}
+
+.text{
+	position: absolute;
+	bottom: 5%;
+	left: 5%;
+	color:white;
+	font-size: 5vh;
+	font-weight: bold;
+	width: 20vw;
+}
+
+.wide{
+	width: 60%;
+}
