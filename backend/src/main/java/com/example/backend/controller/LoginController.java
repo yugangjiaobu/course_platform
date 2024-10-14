@@ -22,7 +22,7 @@ public class LoginController {
         try {
             User user = userService.login(loginDTO.getUsername(), loginDTO.getPassword());
             if (user != null) {
-                String token = JWTUtil.generateToken(user.getUsername());
+                String token = JWTUtil.generateToken(user.getRole()); // 传入角色信息
                 return ResponseEntity.ok().body(token);
             } else {
                 return ResponseEntity.badRequest().body("登录失败：用户名或密码错误");
