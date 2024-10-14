@@ -6,6 +6,7 @@ import com.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.example.backend.util.JWTUtil;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -17,7 +18,7 @@ public class UserServiceImpl implements UserService {
     public User login(String username, String password) {
         User user = userDAO.findByUsername(username);
         if (user != null && new BCryptPasswordEncoder().matches(password, user.getPassword())) {
-            return user;
+            return user; // 确保user包含角色信息
         }
         return null;
     }
