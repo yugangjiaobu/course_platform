@@ -1,27 +1,34 @@
-package com.example.backend.entity;
-
 public class User {
-    private String username;
+    private String userId;
     private String password;
     private String role;
+    private String name;
+    private String email;
+    private String phone;
+    private String createdAt;
+    private String updatedAt;
 
-    // 默认构造函数
-    public User() {
-    }
+    // Constructors, getters, and setters
+    public User() {}
 
-    // 带参数的构造函数
-    public User(String username, String password, String role) {
-        this.username = username;
+    public User(String userId, String password, String role, String name, String email, String phone, String createdAt, String updatedAt) {
+        this.userId = userId;
         this.password = password;
         this.role = role;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
-    public String getUsername() {
-        return username;
+    // Getters and Setters
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getPassword() {
@@ -38,5 +45,45 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
