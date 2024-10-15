@@ -1,3 +1,6 @@
+package com.example.backend.dao;
+
+import com.example.backend.entity.User;
 import java.util.List;
 
 public interface UserDAO {
