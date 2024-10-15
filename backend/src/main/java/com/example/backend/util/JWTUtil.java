@@ -14,9 +14,9 @@ public class JWTUtil {
     private static final String SECRET_KEY = "yugangjiaobu"; // 密钥，自行设置
     private static final long EXPIRATION_TIME = 24 * 60 * 60 * 1000; // 过期时间，单位毫秒
 
-    public static String generateToken(String role) {
+    public static String generateToken(String username, String role) {
         return Jwts.builder()
-                //.setSubject(username)
+                .setSubject(username)
                 .claim("role", role)
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
