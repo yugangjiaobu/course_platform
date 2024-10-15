@@ -20,9 +20,9 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
         try {
-            User user = userService.login(loginDTO.getUsername(), loginDTO.getPassword());
+            User user = userService.login(loginDTO.getUserID(), loginDTO.getPassword());
             if (user != null) {
-                String token = JWTUtil.generateToken(user.getUsername(), user.getRole()); // 传入角色
+                String token = JWTUtil.generateToken(user.getName(), user.getRole()); // 传入角色
                 return ResponseEntity.ok().body(token);
             } else {
                 return ResponseEntity.badRequest().body("登录失败：用户名或密码错误");
