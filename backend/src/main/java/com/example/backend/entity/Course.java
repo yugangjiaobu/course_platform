@@ -1,3 +1,5 @@
+package com.example.backend.entity;
+
 public class Course {
     private String courseId;
     private String courseName;

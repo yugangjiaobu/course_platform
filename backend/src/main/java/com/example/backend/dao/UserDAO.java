@@ -9,4 +9,6 @@ public interface UserDAO {
     void deleteUser(String userId) throws Exception;
     User getUserById(String userId) throws Exception;
     List<User> getAllUsers() throws Exception;
+
+    User findByUsername(String username);
 }

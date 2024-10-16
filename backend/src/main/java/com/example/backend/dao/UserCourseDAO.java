@@ -1,3 +1,7 @@
+package com.example.backend.dao;
+
+import com.example.backend.entity.UserCourse;
+
 import java.sql.SQLException;
 import java.util.List;
 

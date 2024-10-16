@@ -1,3 +1,7 @@
+package com.example.backend.dao;
+
+import com.example.backend.entity.CourseResource;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

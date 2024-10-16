@@ -1,3 +1,6 @@
+package com.example.backend.dao;
+
+import com.example.backend.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -69,14 +72,14 @@ public class UserDAOImpl implements UserDAO {
             @Override
             public User mapRow(ResultSet rs, int rowNum) throws SQLException {
                 return new User(
-                        rs.getString("user_id"),
-                        rs.getString("password"),
-                        rs.getString("role"),
-                        rs.getString("name"),
-                        rs.getString("email"),
-                        rs.getString("phone"),
-                        rs.getString("created_at"),
-                        rs.getString("updated_at")
+                    rs.getString("user_id"),
+                    rs.getString("password"),
+                    rs.getString("role"),
+                    rs.getString("name"),
+                    rs.getString("email"),
+                    rs.getString("phone"),
+                    rs.getString("created_at"),
+                    rs.getString("updated_at")
                 );
             }
         });
@@ -89,14 +92,38 @@ public class UserDAOImpl implements UserDAO {
             @Override
             public User mapRow(ResultSet rs, int rowNum) throws SQLException {
                 return new User(
-                        rs.getString("user_id"),
-                        rs.getString("password"),
-                        rs.getString("role"),
-                        rs.getString("name"),
-                        rs.getString("email"),
-                        rs.getString("phone"),
-                        rs.getString("created_at"),
-                        rs.getString("updated_at")
+                    rs.getString("user_id"),
+                    rs.getString("password"),
+                    rs.getString("role"),
+                    rs.getString("name"),
+                    rs.getString("email"),
+                    rs.getString("phone"),
+                    rs.getString("created_at"),
+                    rs.getString("updated_at")
+                );
+            }
+        });
+    }
+
+    /**
+     * @param username 
+     * @return
+     */
+    @Override
+    public User findByUsername(String username) {
+        String query = "SELECT * FROM users WHERE name = ?";
+        return jdbcTemplate.queryForObject(query, new Object[]{username}, new RowMapper<User>() {
+            @Override
+            public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new User(
+                    rs.getString("user_id"),
+                    rs.getString("password"),
+                    rs.getString("role"),
+                    rs.getString("name"),
+                    rs.getString("email"),
+                    rs.getString("phone"),
+                    rs.getString("created_at"),
+                    rs.getString("updated_at")
                 );
             }
         });

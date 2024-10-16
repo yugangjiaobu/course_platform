@@ -1,3 +1,5 @@
+package com.example.backend.entity;
+
 import java.sql.Timestamp;
 
 public class UserCourse {

@@ -1,3 +1,7 @@
+package com.example.backend.dao;
+
+import com.example.backend.entity.UserCourse;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -6,10 +10,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserCourseDAOImpl implements UserCourse {
+public class UserCourseDAOImpl implements UserCourseDAO {
     private Connection connection;
 
-    public UserCourseDAO(Connection connection) {
+    public UserCourseDAOImpl(Connection connection) {
         this.connection = connection;
     }
 

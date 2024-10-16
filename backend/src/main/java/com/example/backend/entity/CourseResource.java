@@ -1,3 +1,7 @@
+package com.example.backend.entity;
+
+import java.sql.Timestamp;
+
 public class CourseResource {
     private String resourceId;
     private String courseId;

@@ -1,3 +1,7 @@
+package com.example.backend.dao;
+
+import com.example.backend.entity.Course;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,7 +12,7 @@ import java.util.List;
 public class CourseDAOImpl implements CourseDAO {
     private Connection connection;
 
-    public CourseDAO(Connection connection) {
+    public CourseDAOImpl(Connection connection) {
         this.connection = connection;
     }
 
