@@ -14,9 +14,9 @@ public class AppConfig {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/smart");
-        dataSource.setUsername("root");
-        dataSource.setPassword("123456");
+        dataSource.setUrl("jdbc:mysql://1.tco.vip.cpolar.cn:23220/smart");
+        dataSource.setUsername("smart");
+        dataSource.setPassword("M13yS19Q17L12_");
         return dataSource;
     }
 
