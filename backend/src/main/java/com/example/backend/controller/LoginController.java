@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
 
 @RestController
-@RequestMapping("/userLogin")
+@RequestMapping("/api")
 public class LoginController {
     @Autowired
     private UserService userService;
