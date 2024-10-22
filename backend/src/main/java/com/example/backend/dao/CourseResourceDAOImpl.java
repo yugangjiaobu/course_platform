@@ -1,92 +1,75 @@
 package com.example.backend.dao;
 
 import com.example.backend.entity.CourseResource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
-import java.sql.*;
-import java.util.ArrayList;
+import java.sql.Timestamp;
 import java.util.List;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
+@Repository
 public class CourseResourceDAOImpl implements CourseResourceDAO {
-    private Connection connection;
 
-    public CourseResourceDAOImpl(Connection connection) {
-        this.connection = connection;
-    }
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Override
-    public void addCourseResource(CourseResource courseResource) throws SQLException {
+    public void addCourseResource(CourseResource courseResource) {
         String sql = "INSERT INTO course_resources (resource_id, course_id, resource_name, resource_type, resource_path, uploaded_at) VALUES (?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, courseResource.getResourceId());
-            stmt.setString(2, courseResource.getCourseId());
-            stmt.setString(3, courseResource.getResourceName());
-            stmt.setString(4, courseResource.getResourceType());
-            stmt.setString(5, courseResource.getResourcePath());
-            stmt.setTimestamp(6, courseResource.getUploadedAt());
-            stmt.executeUpdate();
-        }
+        jdbcTemplate.update(sql,
+                courseResource.getResourceId(),
+                courseResource.getCourseId(),
+                courseResource.getResourceName(),
+                courseResource.getResourceType(),
+                courseResource.getResourcePath(),
+                courseResource.getUploadedAt());
     }
 
     @Override
-    public CourseResource getCourseResourceById(String resourceId) throws SQLException {
+    public CourseResource getCourseResourceById(String resourceId) {
         String sql = "SELECT * FROM course_resources WHERE resource_id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, resourceId);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                CourseResource courseResource = new CourseResource();
-                courseResource.setResourceId(rs.getString("resource_id"));
-                courseResource.setCourseId(rs.getString("course_id"));
-                courseResource.setResourceName(rs.getString("resource_name"));
-                courseResource.setResourceType(rs.getString("resource_type"));
-                courseResource.setResourcePath(rs.getString("resource_path"));
-                courseResource.setUploadedAt(rs.getTimestamp("uploaded_at"));
-                return courseResource;
-            }
-        }
-        return null;
+        return jdbcTemplate.queryForObject(sql, new Object[]{resourceId}, new CourseResourceRowMapper());
     }
 
     @Override
-    public List<CourseResource> getAllCourseResources() throws SQLException {
-        List<CourseResource> resources = new ArrayList<>();
+    public List<CourseResource> getAllCourseResources() {
         String sql = "SELECT * FROM course_resources";
-        try (Statement stmt = connection.createStatement()) {
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                CourseResource courseResource = new CourseResource();
-                courseResource.setResourceId(rs.getString("resource_id"));
-                courseResource.setCourseId(rs.getString("course_id"));
-                courseResource.setResourceName(rs.getString("resource_name"));
-                courseResource.setResourceType(rs.getString("resource_type"));
-                courseResource.setResourcePath(rs.getString("resource_path"));
-                courseResource.setUploadedAt(rs.getTimestamp("uploaded_at"));
-                resources.add(courseResource);
-            }
-        }
-        return resources;
+        return jdbcTemplate.query(sql, new CourseResourceRowMapper());
     }
 
     @Override
-    public void updateCourseResource(CourseResource courseResource) throws SQLException {
+    public void updateCourseResource(CourseResource courseResource) {
         String sql = "UPDATE course_resources SET course_id = ?, resource_name = ?, resource_type = ?, resource_path = ?, uploaded_at = ? WHERE resource_id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, courseResource.getCourseId());
-            stmt.setString(2, courseResource.getResourceName());
-            stmt.setString(3, courseResource.getResourceType());
-            stmt.setString(4, courseResource.getResourcePath());
-            stmt.setTimestamp(5, courseResource.getUploadedAt());
-            stmt.setString(6, courseResource.getResourceId());
-            stmt.executeUpdate();
-        }
+        jdbcTemplate.update(sql,
+                courseResource.getCourseId(),
+                courseResource.getResourceName(),
+                courseResource.getResourceType(),
+                courseResource.getResourcePath(),
+                courseResource.getUploadedAt(),
+                courseResource.getResourceId());
     }
 
     @Override
-    public void deleteCourseResource(String resourceId) throws SQLException {
+    public void deleteCourseResource(String resourceId) {
         String sql = "DELETE FROM course_resources WHERE resource_id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, resourceId);
-            stmt.executeUpdate();
+        jdbcTemplate.update(sql, resourceId);
+    }
+
+    private static class CourseResourceRowMapper implements RowMapper<CourseResource> {
+        @Override
+        public CourseResource mapRow(ResultSet rs, int rowNum) throws SQLException {
+            CourseResource courseResource = new CourseResource();
+            courseResource.setResourceId(rs.getString("resource_id"));
+            courseResource.setCourseId(rs.getString("course_id"));
+            courseResource.setResourceName(rs.getString("resource_name"));
+            courseResource.setResourceType(rs.getString("resource_type"));
+            courseResource.setResourcePath(rs.getString("resource_path"));
+            courseResource.setUploadedAt(rs.getTimestamp("uploaded_at"));
+            return courseResource;
         }
     }
 }
