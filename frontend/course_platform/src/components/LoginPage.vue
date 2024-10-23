@@ -5,7 +5,7 @@
 		<div class="login-container">
 			
 				<h2>欢迎登陆课程平台</h2>
-				<form @submit.prevent="login">
+				<form @submit.prevent="loginPage">
 				  <div>
 				    <label for="username">学号/职工号:</label>
 				    <input v-model="username" type="text" id="username" required />
@@ -89,33 +89,33 @@ h2{
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-around;
-	& div{
-		display: flex;
-		justify-content: space-between;
-		height: 5vh;
-		width: 40vw;
-		font-size: 1.2rem;
-		& input{
-			width: 25vw;
-			height: 5vh;
-			border: 1px solid green;
-			border-radius: 1vh;
-			
-		}
-	}
-	& button{
-		cursor: pointer;
-		width:20vw;
-		height: 8vh;
-		color: darkgreen;
-		margin-left: 14vw;
-		font-size: 1.3rem;
-		border: 1px solid green;
-		border-radius: 1vh;
-		&:hover{
-			background-color: green;
-			color: white;
-		}
-	}
+}
+.login-container form div{
+	display: flex;
+	justify-content: space-between;
+	height: 5vh;
+	width: 40vw;
+	font-size: 1.2rem;
+}
+.login-container form div input{
+	width: 25vw;
+	height: 5vh;
+	border: 1px solid green;
+	border-radius: 1vh;
+}
+.login-container form button{
+	cursor: pointer;
+	width:20vw;
+	height: 8vh;
+	color: white;
+	background-color: darkgreen;
+	margin-left: 14vw;
+	font-size: 1.3rem;
+	border: 1px solid green;
+	border-radius: 1vh;
+}
+.login-container form button:hover{
+	background-color: white;
+	color: darkgreen;
 }
 </style>
