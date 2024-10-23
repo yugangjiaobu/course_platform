@@ -40,6 +40,20 @@ export default {
     };
   },
   methods: {
+    async fetchUserInfo() {
+      try {
+        const response = await fetch(`/api/user/${this.username}`);
+        if (response.ok) {
+          const userInfo = await response.json();
+          this.email = userInfo.email;
+          this.phone = userInfo.phone;
+        } else {
+          this.error = '获取用户信息失败';
+        }
+      } catch (error) {
+        this.error = '服务器错误';
+      }
+    },
     updateInfo() {
       // 模拟更新操作
       if (this.username && this.email && this.phone) {
@@ -49,17 +63,11 @@ export default {
         this.error = '更新失败，请检查信息。';
         this.success = '';
       }
+     },
     },
     // 在组件挂载时获取用户信息
     mounted() {
-      // this.fetchUserInfo(); // 你可以实现一个函数来加载用户信息
-    },
-    fetchUserInfo() {
-      // 模拟 API 获取数据
-      // const userInfo = await getUserInfo();
-      // this.username = userInfo.username;
-      // this.email = userInfo.email;
-      // this.phone = userInfo.phone;
+       this.fetchUserInfo(); // 你可以实现一个函数来加载用户信息
     },
   },
 };
