@@ -39,11 +39,11 @@ export default {
     async loginPage() {
       try {
         const response = await loginRequest(this.username, this.password);
-        console.log(response);
-        // 登录成功后跳转到其他页面
-        this.$router.push('/');
+		window.localStorage.setItem('token',response);
+        this.$router.push('/home');//登陆成功跳转到home
       } catch (err) {
-        this.error = 'Login failed. Please check your credentials.';
+		alert('登陆失败');
+        console.error('login faild',err);
       }
     },
   },
