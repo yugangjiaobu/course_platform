@@ -68,8 +68,7 @@ export default {
     // 在组件挂载时获取用户信息
     mounted() {
        this.fetchUserInfo(); // 你可以实现一个函数来加载用户信息
-    },
-  },
+    }
 };
 </script>
 
