@@ -27,17 +27,28 @@ public class JWTUtil {
         try {
             Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
             return true;
-        } catch (SignatureException e) {
-            // 签名异常
-        } catch (MalformedJwtException e) {
-            // JWT格式错误
-        } catch (ExpiredJwtException e) {
-            // JWT过期
-        } catch (UnsupportedJwtException e) {
-            // 不支持的JWT
-        } catch (IllegalArgumentException e) {
-            // 令牌为空
+        } catch (SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException e) {
+            // 处理异常
         }
         return false;
+    }
+
+    public static Claims extractClaims(String token) {
+        return Jwts.parser()
+                .setSigningKey(SECRET_KEY)
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    public static String extractUsername(String token) {
+        return extractClaims(token).getSubject();
+    }
+
+    public static String extractRole(String token) {
+        return extractClaims(token).get("role", String.class);
+    }
+
+    public static boolean isTokenExpired(String token) {
+        return extractClaims(token).getExpiration().before(new Date());
     }
 }
