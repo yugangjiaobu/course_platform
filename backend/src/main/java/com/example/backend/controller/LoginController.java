@@ -23,10 +23,10 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
         try {
-            String userID = loginDTO.getUserID();
+            String username = loginDTO.getUsername();
             String password = loginDTO.getPassword();
 
-            User user = userService.login(userID, password);
+            User user = userService.login(username, password);
             if (user != null) {
                 String token = JWTUtil.generateToken(user.getName(), user.getRole()); // 传入角色
                 return ResponseEntity.ok().body(token);
