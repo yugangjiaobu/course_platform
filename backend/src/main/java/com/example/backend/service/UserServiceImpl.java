@@ -15,9 +15,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDAO userDAO;
    @Override
-    public User login(String userID, String password) {
+    public User login(String username, String password) {
         try {
-            User user = userDAO.getUserById(userID);
+            User user = userDAO.findByUsername(username);
             // 直接进行明文密码比对，使用 Objects.equals 避免空指针异常
             if (user != null && Objects.equals(password, user.getPassword())) {
                 return user; // 确保user包含角色信息
