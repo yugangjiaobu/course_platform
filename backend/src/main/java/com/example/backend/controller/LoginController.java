@@ -24,10 +24,10 @@ public class LoginController {
     public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
         try {
             System.out.println("Received loginDTO: " + loginDTO);
-            String username = loginDTO.getUsername();
+            String userID = loginDTO.getUserID();
             String password = loginDTO.getPassword();
 
-            User user = userService.login(username, password);
+            User user = userService.login(userID, password);
             if (user != null) {
                 String token = JWTUtil.generateToken(user.getName(), user.getRole()); // 传入角色
                 return ResponseEntity.ok().body(token);
