@@ -1,15 +1,15 @@
 package com.example.backend.dto;
 
 public class LoginDTO {
-    private String username; // 改成 username，匹配前端
+    private String userID; 
     private String password;
 
-    public String getUsername() {
-        return username;
+    public String getUserID() {
+        return userID;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public String getPassword() {
