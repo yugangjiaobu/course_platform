@@ -6,10 +6,10 @@ function getToken(){
 	return window.localStorage.getItem('token');
 }
 
-export const loginRequest = async (username, password) => {
+export const loginRequest = async (userID, password) => {
   try {
     const response = await axios.post('/api/login', {
-      username,
+      userID,
       password,
     });
     return response.data;
