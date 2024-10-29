@@ -23,6 +23,7 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
         try {
+            System.out.println("Received loginDTO: " + loginDTO);
             String username = loginDTO.getUsername();
             String password = loginDTO.getPassword();
 
