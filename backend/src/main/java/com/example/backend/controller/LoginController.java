@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:8081") // 替换为你的前端地址
+@CrossOrigin(origins = "http://localhost:8080") // 替换为你的前端地址
 public class LoginController {
     @Autowired
     private UserService userService;
@@ -23,7 +23,7 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
         try {
-            System.out.println("Received loginDTO: " + loginDTO);
+            System.out.println("Received loginDTO: userID=" + loginDTO.getUserID() + ", password=" + loginDTO.getPassword());
             String userID = loginDTO.getUserID();
             String password = loginDTO.getPassword();
 
@@ -40,5 +40,4 @@ public class LoginController {
         }
     }
 }
-
 
