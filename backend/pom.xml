@@ -5,7 +5,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.3.4</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
     <groupId>com.example</groupId>
     <artifactId>backend</artifactId>
@@ -14,7 +14,7 @@
     <description>backend</description>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
     </properties>
 
     <dependencies>
@@ -27,37 +27,49 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
             <version>8.0.28</version>
-        </dependency>  
-        <dependency>  
-            <groupId>io.jsonwebtoken</groupId>  
-            <artifactId>jjwt</artifactId>  
-            <version>0.9.1</version>  
-        </dependency>  
-        <dependency>  
-            <groupId>org.springframework.security</groupId>  
-            <artifactId>spring-security-core</artifactId>  
-        </dependency>  
-        <dependency>  
-            <groupId>org.springframework.security</groupId>  
-            <artifactId>spring-security-crypto</artifactId>  
-        </dependency>  
-        <dependency>  
-            <groupId>org.springframework.boot</groupId>  
-            <artifactId>spring-boot-starter-test</artifactId>  
-            <scope>test</scope>  
-        </dependency>  
-        <dependency>  
-            <groupId>org.springframework.boot</groupId>  
-            <artifactId>spring-boot-starter-data-jdbc</artifactId>  
-        </dependency>  
-    </dependencies>  
-  
-    <build>  
-        <plugins>  
-            <plugin>  
-                <groupId>org.springframework.boot</groupId>  
-                <artifactId>spring-boot-maven-plugin</artifactId>  
-            </plugin>  
-        </plugins>  
-    </build>  
+        </dependency>
+        <!-- JWT dependencies -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.11.5</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.11.5</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.11.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jdbc</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>
+
