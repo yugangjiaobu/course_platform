@@ -28,7 +28,7 @@
 <script>
 // import { updateUserInfo } from '../api/user.js';
 // import { getUserInfo } from '../api/user.js';
-
+import {checkLogin} from '../api/auth.js';
 export default {
   data() {
     return {
@@ -66,8 +66,16 @@ export default {
      },
     },
     // 在组件挂载时获取用户信息
-    mounted() {
-       this.fetchUserInfo(); // 你可以实现一个函数来加载用户信息
+    async mounted() {
+		//检查用户是否登陆，如果没有登陆跳到登陆界面，如果登陆，获取个人信息然后显示
+      try{
+      	const userstate = await checkLogin();
+      	console.log('User State:', userstate); 
+      }catch(err){
+      	console.error(err);
+      	alert('用户未登陆');
+      	this.$router.push('/login');
+      }
     }
 };
 </script>
