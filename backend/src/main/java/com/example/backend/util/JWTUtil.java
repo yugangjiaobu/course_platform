@@ -3,15 +3,13 @@ package com.example.backend.util;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.Keys;
 
+import javax.crypto.SecretKey;
 import java.util.Date;
 
 public class JWTUtil {
-    private static final String SECRET_KEY = "yugangjiaobu"; // 密钥，自行设置
+    private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512); // 生成符合HS512的密钥
     private static final long EXPIRATION_TIME = 24 * 60 * 60 * 1000; // 过期时间，单位毫秒
 
     public static String generateToken(String username, String role) {
@@ -19,23 +17,27 @@ public class JWTUtil {
                 .setSubject(username)
                 .claim("role", role)
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
+                .signWith(SECRET_KEY)
                 .compact();
     }
 
     public static boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
+            Jwts.parserBuilder()
+                    .setSigningKey(SECRET_KEY)
+                    .build()
+                    .parseClaimsJws(token);
             return true;
-        } catch (SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException e) {
+        } catch (Exception e) {
             // 处理异常
         }
         return false;
     }
 
     public static Claims extractClaims(String token) {
-        return Jwts.parser()
+        return Jwts.parserBuilder()
                 .setSigningKey(SECRET_KEY)
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
