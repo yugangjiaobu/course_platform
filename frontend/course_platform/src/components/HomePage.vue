@@ -19,17 +19,52 @@
 <script>
     export default {
         methods: {
-            goTo(page) {
-                // 跳转部分已注释
-                /*
-                if (page === 'personalCenter') {
-                  this.$router.push('/personal-center');
-                } else if (page === 'myCourses') {
-                  this.$router.push('/my-courses');
-                } else if (page === 'notificationCenter') {
-                  this.$router.push('/notification-center');
+            async goTo(page) {
+                try {
+                    const token = await this.getToken(); // 获取token
+                    window.localStorage.setItem('token', token); // 存储token
+
+                    if (page === 'personalCenter') {
+                        const userData = await this.fetchUserData(token); // 获取个人中心数据
+                        console.log('User Data:', userData); // 处理个人中心数据（可根据需求进行修改）
+                        this.$router.push('/info'); // 跳转到个人中心
+                    } else if (page === 'myCourses') {
+                        this.$router.push('/my-courses');
+                    } else if (page === 'notificationCenter') {
+                        this.$router.push('/notification-center');
+                    }
+                } catch (err) {
+                    alert('操作失败');
+                    console.error('Error:', err);
                 }
-                */
+            },
+            async getToken() {
+                // 模拟token获取，替换为实际的API调用
+                return new Promise((resolve) => {
+                    const token = 'your_generated_token_here'; // 替换为实际token
+                    resolve(token);
+                });
+            },
+            async fetchUserData(token) {
+                try {
+                    const response = await fetch('https://your-api-endpoint.com/userdata', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+
+                    const data = await response.json();
+                    return data; // 返回获取的用户数据
+                } catch (error) {
+                    console.error('Failed to fetch user data:', error);
+                    throw error; // 重新抛出错误以供调用者处理
+                }
             }
         }
     };

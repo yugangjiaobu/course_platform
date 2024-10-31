@@ -1,7 +1,7 @@
 package com.example.backend.dto;
 
 public class LoginDTO {
-    private String userID;
+    private String userID; 
     private String password;
 
     public String getUserID() {
