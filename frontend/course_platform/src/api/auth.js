@@ -6,14 +6,16 @@ function getToken(){
 	return window.localStorage.getItem('token');
 }
 
-export const loginRequest = async (username, password) => {
+export const loginRequest = async (userID, password) => {
   try {
     const response = await axios.post('/api/login', {
-      username,
+      userID,
       password,
     });
+	console.log(response);
     return response.data;
   } catch (error) {
+	console.log(error.response);
     throw new Error('Login failed');
   }
 };
