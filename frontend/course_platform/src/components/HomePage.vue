@@ -17,19 +17,28 @@
 </template>
 
 <script>
+	import {checkLogin} from '../api/auth.js';
     export default {
+		async mounted(){
+			try{
+				const userstate = await checkLogin();
+				console.log('User State:', userstate); 
+			}catch(err){
+				console.error(err);
+				alert('用户未登陆');
+				this.$router.push('/login');
+			}
+			
+		},
         methods: {
             async goTo(page) {
                 try {
-                    const token = await this.getToken(); // 获取token
+                    const token = localStorage.getItem('token'); // 获取token
                     window.localStorage.setItem('token', token); // 存储token
-
                     if (page === 'personalCenter') {
-                        const userData = await this.fetchUserData(token); // 获取个人中心数据
-                        console.log('User Data:', userData); // 处理个人中心数据（可根据需求进行修改）
                         this.$router.push('/info'); // 跳转到个人中心
                     } else if (page === 'myCourses') {
-                        this.$router.push('/my-courses');
+                        this.$router.push('/courselist');
                     } else if (page === 'notificationCenter') {
                         this.$router.push('/notification-center');
                     }
@@ -38,19 +47,12 @@
                     console.error('Error:', err);
                 }
             },
-            async getToken() {
-                // 模拟token获取，替换为实际的API调用
-                return new Promise((resolve) => {
-                    const token = 'your_generated_token_here'; // 替换为实际token
-                    resolve(token);
-                });
-            },
             async fetchUserData(token) {
                 try {
-                    const response = await fetch('https://your-api-endpoint.com/userdata', {
+                    const response = await fetch('http://localhost:8000/api/user/getinfo', {
                         method: 'GET',
                         headers: {
-                            'Authorization': `Bearer ${token}`,
+                            'Authorization': `${token}`,
                             'Content-Type': 'application/json'
                         }
                     });

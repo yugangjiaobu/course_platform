@@ -1,6 +1,7 @@
 import LoginPage from '../components/LoginPage.vue';
 import InfoPage from '../components/InfoPage.vue';
 import HomePage from '../components/HomePage.vue';
+import CourseListPage from '../components/CourseListPage.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 
@@ -21,6 +22,11 @@ const routes = [
         name: 'HomePage',
         component: HomePage,
     },
+	{
+	    path: '/courseList',
+	    name: 'CourseListPage',
+	    component: CourseListPage,
+	},
   // 其他路由...
 ];
 
