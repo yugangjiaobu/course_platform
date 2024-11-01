@@ -24,17 +24,15 @@
   </div>
 </template>
 
-
 <script>
-// import { updateUserInfo } from '../api/user.js';
-// import { getUserInfo } from '../api/user.js';
-import {checkLogin} from '../api/auth.js';
+import { checkLogin } from '../api/auth.js';
+
 export default {
   data() {
     return {
-      username: '20210001', // 默认值
-      email: 'example@example.com', // 默认值
-      phone: '123456789', // 默认值
+      username: '', // 从后端获取
+      email: '', // 从后端获取
+      phone: '', // 从后端获取
       error: '',
       success: '',
     };
@@ -45,8 +43,9 @@ export default {
         const response = await fetch(`/api/user/${this.username}`);
         if (response.ok) {
           const userInfo = await response.json();
-          this.email = userInfo.email;
-          this.phone = userInfo.phone;
+          this.username = userInfo.userID; // 假设返回了用户 ID
+          this.email = userInfo.email; // 假设返回了电子邮件
+          this.phone = userInfo.phone; // 假设返回了联系电话
         } else {
           this.error = '获取用户信息失败';
         }
@@ -63,20 +62,12 @@ export default {
         this.error = '更新失败，请检查信息。';
         this.success = '';
       }
-     },
     },
-    // 在组件挂载时获取用户信息
-    async mounted() {
-		//检查用户是否登陆，如果没有登陆跳到登陆界面，如果登陆，获取个人信息然后显示
-      try{
-      	const userstate = await checkLogin();
-      	console.log('User State:', userstate); 
-      }catch(err){
-      	console.error(err);
-      	alert('用户未登陆');
-      	this.$router.push('/login');
-      }
-    }
+  },
+  // 在组件挂载时获取用户信息
+  async mounted() {
+    await this.fetchUserInfo(); // 直接获取用户信息
+  }
 };
 </script>
 
@@ -149,8 +140,8 @@ h2 {
 .info-container form button:hover {
   background-color: green;
   color: white;
+}
 .success {
   color: white; /* 设置成功消息的字体颜色为白色 */
-}
 }
 </style>
