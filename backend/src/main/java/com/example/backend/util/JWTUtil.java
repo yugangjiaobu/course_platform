@@ -42,7 +42,7 @@ public class JWTUtil {
                 .getBody();
     }
 
-    public static String extractUsername(String token) {
+    public static String extractUserId(String token) {
         return extractClaims(token).getSubject();
     }
 
