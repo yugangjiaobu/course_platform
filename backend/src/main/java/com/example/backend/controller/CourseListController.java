@@ -28,7 +28,7 @@ public class CourseListController {
         }
 
         // 从 token 中提取 username
-        String username = JWTUtil.extractUsername(jwtToken);
+        String username = JWTUtil.extractUserId(jwtToken);
 
         // 检查 token 是否过期
         if (JWTUtil.isTokenExpired(jwtToken)) {
