@@ -12,9 +12,9 @@ public class JWTUtil {
     private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512); // 生成符合HS512的密钥
     private static final long EXPIRATION_TIME = 24 * 60 * 60 * 1000; // 过期时间，单位毫秒
 
-    public static String generateToken(String username, String role) {
+    public static String generateToken(String userId, String role) {
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(userId)
                 .claim("role", role)
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SECRET_KEY)
