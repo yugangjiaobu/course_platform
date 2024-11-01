@@ -22,12 +22,12 @@ public class CourseListServiceImpl implements CourseListService{
     private CourseDAO courseDAO;
 
     @Override
-    public List<CourseListDTO> getUserCourses(String username) {
+    public List<CourseListDTO> getUserCourses(String userId) {
         List<CourseListDTO> courseList = new ArrayList<>();
 
         try {
             // 1. 通过 userCourseDAO 获取该用户参与的课程
-            List<UserCourse> userCourses = userCourseDAO.getAllUserCourses(username);
+            List<UserCourse> userCourses = userCourseDAO.getAllUserCourses(userId);
 
             // 2. 根据每个 UserCourse 中的 courseId，通过 courseDAO 获取完整的 Course 信息
             for (UserCourse userCourse : userCourses) {
