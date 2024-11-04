@@ -34,8 +34,6 @@
 
 
 <script>
-// import { updateUserInfo } from '../api/user.js';
-// import { getUserInfo } from '../api/user.js';
 import {checkLogin,fetchUserInfo,updateInfo} from '../api/auth.js';
 export default {
   data() {

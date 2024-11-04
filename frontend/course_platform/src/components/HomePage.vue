@@ -20,14 +20,14 @@
 	import {checkLogin} from '../api/auth.js';
     export default {
 		async mounted(){
-			try{
-				const userstate = await checkLogin();
-				console.log('User State:', userstate); 
-			}catch(err){
-				console.error(err);
-				alert('用户未登陆');
-				this.$router.push('/login');
-			}
+			// try{
+			// 	const userstate = await checkLogin();
+			// 	console.log('User State:', userstate);
+			// }catch(err){
+			// 	console.error(err);
+			// 	alert('用户未登陆');
+			// 	this.$router.push('/login');
+			// }
 			
 		},
         methods: {
