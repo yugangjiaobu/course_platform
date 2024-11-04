@@ -4,10 +4,18 @@
     <div class="info-container">
       <h2>个人信息管理</h2>
       <form @submit.prevent="updateInfo">
+		  <div>
+		    <label for="username">姓名:</label>
+		    <span>{{ username }}</span> <!-- 修改为只读文本 -->
+		  </div>
         <div>
-          <label for="username">学号/职工号:</label>
-          <span>{{ username }}</span> <!-- 修改为只读文本 -->
+          <label for="userid">学号/职工号:</label>
+          <span>{{ userid }}</span> <!-- 修改为只读文本 -->
         </div>
+		<div>
+		  <label for="role">身份:</label>
+		  <span>{{ role }}</span> <!-- 修改为只读文本 -->
+		</div>
         <div>
           <label for="email">电子邮件:</label>
           <input v-model="email" type="email" id="email" required />
@@ -24,28 +32,31 @@
   </div>
 </template>
 
-<script>
-import { checkLogin } from '../api/auth.js';
 
+<script>
+import {checkLogin,fetchUserInfo,updateInfo} from '../api/auth.js';
 export default {
   data() {
     return {
-      username: '', // 从后端获取
-      email: '', // 从后端获取
-      phone: '', // 从后端获取
+      username: '草泥马', // 默认值
+	  userid:'id',
+      email: 'example@example.com', // 默认值
+      phone: '123456789', // 默认值
+	  role:'',
       error: '',
       success: '',
     };
   },
   methods: {
-    async fetchUserInfo() {
+    async fetchinfo() {
       try {
-        const response = await fetch(`/api/user/${this.username}`);
-        if (response.ok) {
-          const userInfo = await response.json();
-          this.username = userInfo.userID; // 假设返回了用户 ID
-          this.email = userInfo.email; // 假设返回了电子邮件
-          this.phone = userInfo.phone; // 假设返回了联系电话
+        const userInfo = await fetchUserInfo();
+        if (userInfo) {
+          this.email = userInfo.email;
+          this.phone = userInfo.tel;
+		  this.username=userInfo.name;
+		  this.userid=userInfo.id;
+		  this.role=userInfo.role;
         } else {
           this.error = '获取用户信息失败';
         }
@@ -53,21 +64,32 @@ export default {
         this.error = '服务器错误';
       }
     },
-    updateInfo() {
-      // 模拟更新操作
-      if (this.username && this.email && this.phone) {
-        this.success = '信息更新成功！';
-        this.error = '';
-      } else {
-        this.error = '更新失败，请检查信息。';
-        this.success = '';
-      }
+    async updateInfo() {
+		try {
+		  const updateres = await updateInfo(this.email,this.phone);
+		  if (updateres) {
+		    this.success='更新信息成功';
+		  } else {
+		    this.error = '更新用户信息失败';
+		  }
+		} catch (error) {
+		  this.error = '服务器错误';
+		}
+     },
     },
-  },
-  // 在组件挂载时获取用户信息
-  async mounted() {
-    await this.fetchUserInfo(); // 直接获取用户信息
-  }
+    // 在组件挂载时获取用户信息
+    async mounted() {
+		//检查用户是否登陆，如果没有登陆跳到登陆界面，如果登陆，获取个人信息然后显示
+      try{
+      	const userstate = await checkLogin();
+		await this.fetchinfo();
+      	console.log('User State:', userstate); 
+      }catch(err){
+      	console.error(err);
+      	alert('用户未登陆');
+      	this.$router.push('/login');
+      }
+    }
 };
 </script>
 
@@ -81,7 +103,6 @@ export default {
   position: fixed;
   width: 100vw;
   height: 100vh;
-  background: url('../assets/login.jpg'); /* 使用个人信息管理背景 */
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
@@ -94,15 +115,7 @@ export default {
 h2 {
   margin-left: 2vw;
 }
-#glass {
-  z-index: 1;
-  position: absolute;
-  background-color: rgba(255, 255, 255, 0.5);
-  height: 50vh;
-  width: 50vw;
-  backdrop-filter: blur(5px);
-  border-radius: 2vw;
-}
+
 .info-container {
   z-index: 2;
 }
@@ -140,8 +153,8 @@ h2 {
 .info-container form button:hover {
   background-color: green;
   color: white;
-}
 .success {
   color: white; /* 设置成功消息的字体颜色为白色 */
+}
 }
 </style>

@@ -7,15 +7,16 @@
       <div v-if="success" class="success">{{ success }}</div>
       <div v-if="courses.length">
         <ul class="course-list">
-          <li
-              v-for="course in courses"
-              :key="course.courseListName"
-              @click="handleCourseClick(course)"
-              class="course-item">
-            {{ course.courseListName }}
+          <li 
+            v-for="course in courses" 
+            :key="course.id" 
+            @click="handleCourseClick(course)"
+            class="course-item">
+            {{ course.name }}
           </li>
+		  <div class='course-item' @click="backtohome()">Back to Home</div>
         </ul>
-        <div class="home-item" @click="tohome()">back to home</div>
+		
       </div>
       <p v-else>没有找到课程。</p>
     </div>
@@ -36,24 +37,22 @@ export default {
   },
   methods: {
     handleCourseClick(course) {
-      alert(`您点击了课程: ${course.courseListName}`);
-      // 可以在这里添加课程详情或进一步操作
-    }
-    , tohome(){
-      this.$router.push('/home');
+      this.$router.push('/coursedetail/'+course.name);
     },
+	backtohome(){
+		this.$router.push('/home');
+	}
   },
-
    async mounted() {
 	try{
-		// const userstate = await checkLogin();
-		// console.log('User State:', userstate);
+		const userstate = await checkLogin();
+		console.log('User State:', userstate); 
 		 const data= await getCourseList();
 		 this.courses=data;
 	}catch(err){
 		console.error(err);
-		// alert('用户未登陆');
-		// this.$router.push('/login');
+		alert('用户未登陆');
+		this.$router.push('/login');
 	}
   }
 };
@@ -66,7 +65,6 @@ export default {
   position: fixed;
   width: 100vw;
   height: 100vh;
-  background: url('../assets/login.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
@@ -81,15 +79,7 @@ h2 {
   margin-left: 2vw;
 }
 
-#glass {
-  z-index: 1;
-  position: absolute;
-  background-color: rgba(255, 255, 255, 0.5);
-  height: 50vh;
-  width: 50vw;
-  backdrop-filter: blur(5px);
-  border-radius: 2vw;
-}
+
 
 .course-container {
   z-index: 2;
@@ -119,26 +109,25 @@ h2 {
   color: white;
 }
 
-.home-item {
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid darkred;
-  border-radius: 5px;
-  cursor: pointer;
-  text-align: center;
-  color:darkred;
-}
-
-.home-item:hover {
-  background-color: red;
-  color: white;
-}
-
 .success {
   color: green;
 }
 
 .error {
   color: red;
+}
+
+.course-item:nth-last-child(1){
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid red;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  color: red;
+}
+.course-item:nth-last-child(1):hover {
+  background-color: red;
+  color: white;
 }
 </style>

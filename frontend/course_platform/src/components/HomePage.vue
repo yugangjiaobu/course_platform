@@ -81,7 +81,6 @@
         position: fixed;
         width: 100vw;
         height: 100vh;
-        background: url('../assets/login.jpg'); /* 使用首页背景 */
         background-repeat: no-repeat;
         background-size: cover;
         display: flex;
@@ -96,16 +95,7 @@
         margin-bottom: 20px;
     }
 
-    #glass {
-        z-index: 1;
-        position: absolute;
-        background-color: rgba(255, 255, 255, 0.5);
-        height: 50vh;
-        width: 50vw;
-        backdrop-filter: blur(5px);
-        border-radius: 2vw;
-    }
-
+   
     .options-container {
         z-index: 2;
         display: flex;
