@@ -14,7 +14,9 @@
             class="course-item">
             {{ course.name }}
           </li>
+		  <div class='course-item' @click="backtohome()">Back to Home</div>
         </ul>
+		
       </div>
       <p v-else>没有找到课程。</p>
     </div>
@@ -35,9 +37,11 @@ export default {
   },
   methods: {
     handleCourseClick(course) {
-      alert(`您点击了课程: ${course.name}`);
-      // 可以在这里添加课程详情或进一步操作
-    }
+      this.$router.push('/coursedetail/'+course.name);
+    },
+	backtohome(){
+		this.$router.push('/home');
+	}
   },
    async mounted() {
 	try{
@@ -61,7 +65,6 @@ export default {
   position: fixed;
   width: 100vw;
   height: 100vh;
-  background: url('../assets/login.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
@@ -76,15 +79,7 @@ h2 {
   margin-left: 2vw;
 }
 
-#glass {
-  z-index: 1;
-  position: absolute;
-  background-color: rgba(255, 255, 255, 0.5);
-  height: 50vh;
-  width: 50vw;
-  backdrop-filter: blur(5px);
-  border-radius: 2vw;
-}
+
 
 .course-container {
   z-index: 2;
@@ -120,5 +115,19 @@ h2 {
 
 .error {
   color: red;
+}
+
+.course-item:nth-last-child(1){
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid red;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  color: red;
+}
+.course-item:nth-last-child(1):hover {
+  background-color: red;
+  color: white;
 }
 </style>
