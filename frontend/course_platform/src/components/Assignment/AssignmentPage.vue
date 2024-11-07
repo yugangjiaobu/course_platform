@@ -58,7 +58,7 @@
 <script>
 	import {
 		getAssignMent,
-		checkifteacher,
+		fetchUserInfo,
 		uploadAssignMent
 	} from '../../api/auth.js';
 	import Modal from './Modal.vue';
@@ -120,9 +120,10 @@
 				console.log(this.showCreateAssignmentModal)
 			},
 			async checkUserRole() {
-				const data = await checkifteacher();
+				const res = await fetchUserInfo();
+				const data=await res.json();
 
-				if (data === 'teacher') return true;
+				if (data.role === 'teacher') return true;
 
 				return false;
 			},

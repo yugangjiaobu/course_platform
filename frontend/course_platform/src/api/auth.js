@@ -91,22 +91,6 @@ export const getCourseDetails = async (coursename) => {
 	}
 };
 
-export const checkifteacher = async () => {
-	try {
-		const token = getToken();
-		const response = await axios.get('/api/check', {
-			headers: {
-				Authorization: `Bearer ${token}`
-			}
-		});
-		return response.data;
-	} catch (error) {
-		console.log(error.response);
-		throw new Error('error check');
-	}
-};
-
-
 export const getAssignMent = async (coursename) => {
 	try {
 		const token = getToken();
