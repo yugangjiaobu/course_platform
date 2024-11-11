@@ -40,9 +40,15 @@ import { getCourseDetails } from '../api/auth.js';
 export default {
   data() {
     return {
-      course: {},
+      course: {
+        name:'',
+        description:''
+      },
       syllabus: [],
-      teacher: null,
+      teacher: {
+        name:'',
+        email:''
+      },
       students: [],
       error: '',
       isTeacher: false,
@@ -54,11 +60,13 @@ export default {
       const courseInfo = await getCourseDetails(course);
       console.log(courseInfo);
 
-      this.course = courseInfo.course;
+      this.course.name = courseInfo.courseName;
+      this.course.description = courseInfo.courseDescription;
       this.syllabus = courseInfo.syllabus;
-      this.teacher = courseInfo.teacher;
+      this.teacher.name = courseInfo.teacherName;
+      this.teacher.email = courseInfo.teacherEmail;
       this.students = courseInfo.students;
-      this.isTeacher = courseInfo.isTeacher;
+      this.isTeacher = courseInfo.teacher;
     } catch (err) {
       this.error = '加载课程信息时出错，请重试';
       console.error(err);
