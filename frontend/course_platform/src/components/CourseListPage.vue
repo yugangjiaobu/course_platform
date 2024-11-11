@@ -12,7 +12,7 @@
             :key="course.id" 
             @click="handleCourseClick(course)"
             class="course-item">
-            {{ course.name }}
+            {{ course.courseListName }}
           </li>
 		  <div class='course-item' @click="backtohome()">Back to Home</div>
         </ul>
@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     handleCourseClick(course) {
-      this.$router.push('/coursedetail/'+course.name);
+      this.$router.push('/coursedetail/'+course.courseListName);
     },
 	backtohome(){
 		this.$router.push('/home');
@@ -45,8 +45,8 @@ export default {
   },
    async mounted() {
 	try{
-		const userstate = await checkLogin();
-		console.log('User State:', userstate); 
+		//const userstate = await checkLogin();
+		//console.log('User State:', userstate);
 		 const data= await getCourseList();
 		 this.courses=data;
 	}catch(err){
