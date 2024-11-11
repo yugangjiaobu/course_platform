@@ -11,4 +11,8 @@ public interface CourseDAO {
     List<Course> getAllCourses() throws SQLException;
     void updateCourse(Course course) throws SQLException;
     void deleteCourse(String courseId) throws SQLException;
+
+    Course getCourseByName(String courseName) throws SQLException;
+    User getTeacherByCourseId(String courseId) throws SQLException;
+    List<User> getStudentsByCourseId(String courseId) throws SQLException;
 }
