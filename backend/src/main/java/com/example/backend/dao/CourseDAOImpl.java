@@ -55,4 +55,50 @@ public class CourseDAOImpl implements CourseDAO {
             );
         }
     }
+
+    @Override
+    public Course getCourseByName(String courseName) throws SQLException {
+        String query = "SELECT * FROM courses WHERE course_name = ?";
+        return jdbcTemplate.queryForObject(query, new Object[]{courseName}, new CourseRowMapper());
+    }
+
+    @Override
+    public User getTeacherByCourseId(String courseId) throws SQLException {
+        String query = "SELECT * FROM users WHERE user_id = (SELECT teacher_id FROM courses WHERE course_id = ?)";
+        return jdbcTemplate.queryForObject(query, new Object[]{courseId}, new RowMapper<User>() {
+            @Override
+            public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new User(
+                        rs.getString("user_id"),
+                        rs.getString("password"),
+                        rs.getString("role"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getString("created_at"),
+                        rs.getString("updated_at")
+                );
+            }
+        });
+    }
+
+    @Override
+    public List<User> getStudentsByCourseId(String courseId) throws SQLException {
+        String query = "SELECT * FROM users WHERE user_id IN (SELECT user_id FROM user_courses WHERE course_id = ?)";
+        return jdbcTemplate.query(query, new Object[]{courseId}, new RowMapper<User>() {
+            @Override
+            public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new User(
+                        rs.getString("user_id"),
+                        rs.getString("password"),
+                        rs.getString("role"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getString("created_at"),
+                        rs.getString("updated_at")
+                );
+            }
+        });
+    }
 }
