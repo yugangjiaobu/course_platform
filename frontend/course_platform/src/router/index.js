@@ -4,6 +4,8 @@ import HomePage from '../components/HomePage.vue';
 import CourseListPage from '../components/CourseListPage.vue';
 import CourseDetailsPage from '../components/CourseDetailsPage.vue';
 import AssignmentPage from '../components/Assignment/AssignmentPage.vue';
+import ResourcePage from '../components/Resource/ResourcePage.vue';
+import NoticePage from '../components/NoticePage.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 
@@ -38,6 +40,16 @@ const routes = [
 	    path: '/course/:name/assignments',
 	    name: 'AssignmentPage',
 	    component: AssignmentPage,
+	},
+	{
+	    path: '/notification-center',
+	    name: 'NoticePage',
+	    component: NoticePage,
+	},
+	{
+		path:'/course/:name/resources',
+		name:'ResourcePage',
+		component:ResourcePage,
 	}
   // 其他路由...
 ];
