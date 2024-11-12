@@ -161,9 +161,10 @@ export const creatAssignMent = async (file,name,description,title) => {
 
 export const sendNotification = async (content) => {
 	try {
+		console.log(content);
 		const token = getToken();
 		const response = await axios.post('/api/notifications/send', {
-			content
+			content:content
 		}, {
 			headers: {
 				'Authorization': `Bearer ${token}`
@@ -184,6 +185,7 @@ export const getNotifications = async () => {
 				Authorization: `Bearer ${token}`
 			}
 		});
+		console.log(response.data);
 		return response.data;
 	} catch (error) {
 		console.log(error.response);
