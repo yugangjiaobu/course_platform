@@ -14,12 +14,26 @@ public class NotificationDAOImpl implements NotificationDAO {
     private JdbcTemplate jdbcTemplate;
 
     // Create
+    @Override
     public void addNotification(Notification notification) {
-        String sql = "INSERT INTO notifications (notification_id, sender_id, receiver_id, course_id, content, sent_at, is_read) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO notifications (notification_id, sender_id, content, sent_at) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(sql, notification.getNotificationId(), notification.getSenderId(),
-                notification.getReceiverId(), notification.getCourseId(), notification.getContent(),
-                notification.getSentAt(), notification.isRead() ? 1 : 0);
+                notification.getContent(), notification.getSentAt());
+    }
+
+    @Override
+    public List<Notification> findAllNotifications() {
+        String sql = "SELECT n.notification_id, n.sender_id, n.content, n.sent_at, u.name AS sender_name " +
+                "FROM notifications n JOIN users u ON n.sender_id = u.user_id";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            Notification notification = new Notification();
+            notification.setNotificationId(rs.getString("notification_id"));
+            notification.setSenderId(rs.getString("sender_id"));
+            notification.setContent(rs.getString("content"));
+            notification.setSentAt(rs.getTimestamp("sent_at"));
+            notification.setSenderName(rs.getString("sender_name")); // 设定发送者名字
+            return notification;
+        });
     }
 
     // Read
