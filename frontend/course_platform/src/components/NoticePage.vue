@@ -1,90 +1,104 @@
 <template>
-	<div id="notification-page">
-		<div id="glass"></div>
-		<div class="notification-container">
-			<h2>通知</h2>
-			<div v-if="error" class="error">{{ error }}</div>
-			<div v-if="success" class="success">{{ success }}</div>
+  <div id="notification-page">
+    <div id="glass"></div>
+    <div class="notification-container">
+      <h2>通知</h2>
+      <div v-if="error" class="error">{{ error }}</div>
+      <div v-if="success" class="success">{{ success }}</div>
 
-			<!-- 如果是老师，显示发送通知区域 -->
-			<div v-if="isTeacher">
-				<textarea v-model="newNotification" placeholder="输入通知内容"></textarea>
-				<button @click="sendNotification">发送通知</button>
-			</div>
+      <!-- 如果是老师，显示发送通知区域 -->
+      <div v-if="isTeacher">
+        <textarea v-model="newNotification" placeholder="输入通知内容"></textarea>
+        <button @click="sendNotification">发送通知</button>
+      </div>
 
-			<!-- 通知列表 -->
-			<div v-if="notifications.length">
-				<ul class="notification-list">
-					<li v-for="(notification, index) in notifications" :key="index" class="notification-item">
-						{{ notification }}
-					</li>
-				</ul>
-			</div>
-			<p v-else>没有通知。</p>
+      <!-- 通知列表 -->
+      <div v-if="notifications.length">
+        <ul class="notification-list">
+          <li v-for="(notification, index) in notifications" :key="index" class="notification-item">
+            <p><strong>内容:</strong> {{ notification.content }}</p>
+            <p><strong>发送者:</strong> {{ notification.senderName }}</p>
+            <p><strong>时间:</strong> {{ formatDate(notification.sentAt) }}</p>
+          </li>
+        </ul>
+      </div>
+      <p v-else>没有通知。</p>
 
-			<div class='back-button' @click="backToHome()">返回首页</div>
-		</div>
-	</div>
+      <div class='back-button' @click="backToHome()">返回首页</div>
+    </div>
+  </div>
 </template>
 
 <script>
-	import {
-		getNotifications,
-		sendNotification,
-		fetchUserInfo
-	} from '../api/auth.js';
+import {
+  getNotifications,
+  sendNotification,
+  fetchUserInfo
+} from '../api/auth.js';
 
-	export default {
-		data() {
-			return {
-				notifications: [], // 通知列表
-				newNotification: '', // 新通知内容
-				error: '', // 错误信息
-				success: '', // 成功信息
-				isTeacher: false // 是否为老师
-			};
-		},
-		methods: {
-			async checkUserRole() {
-				try {
-					const res = await fetchUserInfo();
-					if (res.role === 'teacher') {
-						this.isTeacher = true;
-					}
-				} catch (err) {
-					console.error('Failed to fetch user info:', err);
-				}
-			},
-			async sendNotification() {
-				if (!this.newNotification) {
-					this.error = '通知内容不能为空';
-					return;
-				}
-				try {
-					await sendNotification(this.newNotification);
-					this.success = '通知发送成功';
-					this.notifications.push(this.newNotification);
-					this.newNotification = '';
-				} catch (err) {
-					this.error = '发送通知失败';
-					console.error(err);
-				}
-			},
-			backToHome() {
-				this.$router.push('/home');
-			}
-		},
-		async mounted() {
-			await this.checkUserRole(); // 调用 checkUserRole 方法
-			try {
-				const data = await getNotifications();
-				this.notifications = data;
-			} catch (err) {
-				console.error('Failed to load notifications:', err);
-			}
-		}
-	};
+export default {
+  data() {
+    return {
+      notifications: [], // 通知列表
+      newNotification: '', // 新通知内容
+      error: '', // 错误信息
+      success: '', // 成功信息
+      isTeacher: false // 是否为老师
+    };
+  },
+  methods: {
+    async checkUserRole() {
+      try {
+        const res = await fetchUserInfo();
+        if (res.role === 'teacher') {
+          this.isTeacher = true;
+        }
+      } catch (err) {
+        console.error('Failed to fetch user info:', err);
+      }
+    },
+    async sendNotification() {
+      if (!this.newNotification) {
+        this.error = '通知内容不能为空';
+        return;
+      }
+      try {
+        await sendNotification(this.newNotification);
+        this.success = '通知发送成功';
+        this.notifications.push({
+          content: this.newNotification,
+          senderName: '您',
+          sentAt: new Date().toISOString()
+        });
+        this.newNotification = '';
+      } catch (err) {
+        this.error = '发送通知失败';
+        console.error(err);
+      }
+    },
+    async loadNotifications() {
+      try {
+        const data = await getNotifications();
+        this.notifications = data;
+      } catch (err) {
+        console.error('Failed to load notifications:', err);
+      }
+    },
+    formatDate(dateStr) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+      return new Date(dateStr).toLocaleDateString('zh-CN', options);
+    },
+    backToHome() {
+      this.$router.push('/home');
+    }
+  },
+  async mounted() {
+    await this.checkUserRole();
+    await this.loadNotifications();
+  }
+};
 </script>
+
 
 <style scoped>
 	*,
@@ -115,7 +129,7 @@
 		border-radius: 10px;
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 		width: 80vw;
-		max-width: 800px;
+		max-width: 80vw;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
