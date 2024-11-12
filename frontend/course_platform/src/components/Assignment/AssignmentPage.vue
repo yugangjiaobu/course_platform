@@ -121,9 +121,8 @@
 			},
 			async checkUserRole() {
 				const res = await fetchUserInfo();
-				const data=await res.json();
 
-				if (data.role === 'teacher') return true;
+				if (res.role === 'teacher') return true;
 
 				return false;
 			},

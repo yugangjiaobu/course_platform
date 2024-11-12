@@ -20,10 +20,14 @@ export const loginRequest = async (userID, password) => {
 	}
 };
 export const updateInfo = async (email, tel) => {
+	const token = getToken();
 	try {
 		const response = await axios.post('/api/infoupdate', {
-			email,
-			tel,
+			email,tel
+		},{
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
 		});
 		return response.data;
 	} catch (error) {
@@ -151,5 +155,90 @@ export const creatAssignMent = async (file,name,description,title) => {
 	} catch (error) {
 		console.log(error.response);
 		throw new Error('error post assignment');
+	}
+};
+
+
+export const sendNotification = async (content) => {
+	try {
+		const token = getToken();
+		const response = await axios.post('/api/notifications/send', {
+			content
+		}, {
+			headers: {
+				'Authorization': `Bearer ${token}`
+			},
+		});
+		return response.data;
+	} catch (error) {
+		console.log(error.response);
+		throw new Error('error post notice');
+	}
+};
+
+export const getNotifications = async () => {
+	try {
+		const token = getToken();
+		const response = await axios.get('/api/notifications/view', {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
+		return response.data;
+	} catch (error) {
+		console.log(error.response);
+		throw new Error('error get notice');
+	}
+};
+
+export const getResource = async (coursename) => {
+	try {
+		const token = getToken();
+		const response = await axios.get('/api/getresource?coursename='+coursename, {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
+		return response.data;
+	} catch (error) {
+		console.log(error.response);
+		throw new Error('error get resourse');
+	}
+};
+export const deleteResource = async (id) => {
+	try {
+		const token = getToken();
+		const response = await axios.post('/api/deleteresource',{
+			id:id
+		},{
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
+		return response.data;
+	} catch (error) {
+		console.log(error.response);
+		throw new Error('error delete resource');
+	}
+};
+export const uploadResource = async (coursename,file,name) => {
+	try {
+		const token = getToken();
+		// 创建 FormData 对象
+		const formData = new FormData();
+		formData.append('file', file); // 添加文件
+		formData.append('coursename',coursename);//课程名称
+		formData.append('resourcename',name);//资源名称
+
+		const response = await axios.post('/api/uploadresource', formData, {
+			headers: {
+				'Authorization': `Bearer ${token}`,
+				'Content-Type': 'multipart/form-data', // 指定内容类型
+			},
+		});
+		return response.data;
+	} catch (error) {
+		console.log(error.response);
+		throw new Error('error upload resource ');
 	}
 };
