@@ -7,4 +7,6 @@ public interface NotificationDAO {
     Notification getNotificationById(String notificationId);
     void updateNotification(Notification notification);
     void deleteNotification(String notificationId);
+
+    List<Notification> findAllNotifications();
 }
