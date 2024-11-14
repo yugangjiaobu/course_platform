@@ -11,4 +11,6 @@ public interface CourseResourceDAO {
     List<CourseResource> getAllCourseResources() throws SQLException;
     void updateCourseResource(CourseResource courseResource) throws SQLException;
     void deleteCourseResource(String resourceId) throws SQLException;
+
+    List<CourseResource> getCourseResourcesByCourseId(String courseId) throws SQLException;
 }
