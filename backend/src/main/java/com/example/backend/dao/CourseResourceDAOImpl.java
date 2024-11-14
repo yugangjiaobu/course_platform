@@ -59,6 +59,12 @@ public class CourseResourceDAOImpl implements CourseResourceDAO {
         jdbcTemplate.update(sql, resourceId);
     }
 
+    @Override
+    public List<CourseResource> getCourseResourcesByCourseId(String courseId) {
+        String sql = "SELECT * FROM course_resources WHERE course_id = ?";
+        return jdbcTemplate.query(sql, new Object[]{courseId}, new CourseResourceRowMapper());
+    }
+
     private static class CourseResourceRowMapper implements RowMapper<CourseResource> {
         @Override
         public CourseResource mapRow(ResultSet rs, int rowNum) throws SQLException {
