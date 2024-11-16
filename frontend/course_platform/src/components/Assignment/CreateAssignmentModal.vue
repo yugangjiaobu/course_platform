@@ -13,6 +13,10 @@
 					<textarea id="description" v-model="description" placeholder="请输入作业描述" required></textarea>
 				</div>
 				<div class="form-group">
+					<label for="dueDate">截止日期</label>
+					<input id="dueDate" type="date" v-model="dueDate" required />
+				</div>
+				<div class="form-group">
 					<label for="attachment">附件</label>
 					<input type="file" @change="handleFileUpload" />
 				</div>
@@ -23,13 +27,16 @@
 </template>
 
 <script>
-	import { creatAssignMent } from '../../api/auth.js';
+	import {
+		creatAssignMent
+	} from '../../api/auth.js';
 	export default {
 		data() {
 			return {
 				title: '',
 				description: '',
 				attachment: null,
+				dueDate:''
 			};
 		},
 		methods: {
@@ -38,7 +45,7 @@
 			},
 			async createAssignment() {
 				try {
-					await creatAssignMent(this.attachment, this.$route.params.name, this.description, this.title);
+					await creatAssignMent(this.attachment, this.$route.params.name, this.description, this.title,this.dueDate);
 					alert('发布成功');
 					this.$emit('close');
 				} catch (err) {
