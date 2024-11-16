@@ -134,7 +134,7 @@ export const uploadAssignMent = async (file,name,id) => {
 	}
 };
 
-export const creatAssignMent = async (file,name,description,title) => {
+export const creatAssignMent = async (file,name,description,title,dueDate) => {
 	try {
 		const token = getToken();
 		// 创建 FormData 对象
@@ -143,6 +143,7 @@ export const creatAssignMent = async (file,name,description,title) => {
 		formData.append('course',name);//课程名称
 		formData.append('description',description);//作业描述
 		formData.append('title',title);//作业标题
+		formData.append('dueDate',dueDate);//作业截至日期
 
 		const response = await axios.post('/api/creatassignment', formData, {
 			headers: {
@@ -155,6 +156,24 @@ export const creatAssignMent = async (file,name,description,title) => {
 	} catch (error) {
 		console.log(error.response);
 		throw new Error('error post assignment');
+	}
+};
+export const submitScore = async (sid,aid,cname,score) => {
+	try {
+		const token = getToken();
+
+		const response = await axios.post('/api/submitscore', {
+			sid:sid,aid:aid,cname:cname,score:score
+		}, {
+			headers: {
+				'Authorization': `Bearer ${token}`
+			},
+		});
+
+		return response.data;
+	} catch (error) {
+		console.log(error.response);
+		throw new Error('error upload assignment');
 	}
 };
 
