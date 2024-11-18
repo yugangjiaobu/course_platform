@@ -1,38 +1,45 @@
 <template>
   <div id="course-details-page">
+	  <button @click="$router.push('/courselist')">返回</button>
+    <!-- 课程标题及描述 -->
     <div class="course-header">
-      <h2>{{ course.name }}</h2>
-      <p>{{ course.description }}</p>
+      <h2 class="course-name">{{ course.name }}</h2>
+      <p class="course-description">{{ course.description }}</p>
     </div>
-	<div class="course-actions">
-	  <button @click="navigateTo('resources')">课程资源</button>
-	  <button @click="navigateTo('assignments')">课程作业</button>
-	  <button @click="navigateTo('exams')">课程考试</button>
-	  <button @click="navigateTo('discuss')">课程讨论</button>
-	</div>
+
+    <!-- 课程操作按钮 -->
+    <div class="course-actions">
+      <button class="action-btn" @click="navigateTo('resources')">课程资源</button>
+      <button class="action-btn" @click="navigateTo('assignments')">课程作业</button>
+      <button class="action-btn" @click="navigateTo('exams')">课程考试</button>
+      <button class="action-btn" @click="navigateTo('discuss')">课程讨论</button>
+    </div>
+
+    <!-- 教学大纲及其他信息 -->
     <div class="course-info">
-      <h3>教学大纲</h3>
-      <ul>
-        <li v-for="(item, index) in syllabus" :key="index">{{ item }}</li>
+      <h3 class="section-title">教学大纲</h3>
+      <ul class="syllabus-list">
+        <li v-for="(item, index) in syllabus" :key="index" class="syllabus-item">{{ item }}</li>
       </ul>
 
-      <h3>教师信息</h3>
-      <div v-if="teacher">
+      <h3 class="section-title">教师信息</h3>
+      <div v-if="teacher" class="teacher-info">
         <p>姓名: {{ teacher.name }}</p>
         <p>邮箱: {{ teacher.email }}</p>
       </div>
 
-      <div v-if="isTeacher">
-        <h3>选课学生列表</h3>
-        <ul>
-          <li v-for="(student, index) in students" :key="index">{{ student.name }}</li>
+      <div v-if="isTeacher" class="students-section">
+        <h3 class="section-title">选课学生列表</h3>
+        <ul class="students-list">
+          <li v-for="(student, index) in students" :key="index" class="student-item">
+            {{ student.name }}
+          </li>
         </ul>
       </div>
     </div>
-
-    
   </div>
 </template>
+
 
 <script>
 import { getCourseDetails } from '../api/auth.js';
@@ -81,58 +88,115 @@ export default {
 </script>
 
 <style scoped>
-html, body {
-  height: 100%; /* 使html和body充满视口 */
-  width: 100vw;
-  margin: 0; /* 去掉默认边距 */
-}
-
+/* 页面整体布局 */
 #course-details-page {
+width: 95vw;
+height: 100vh;
+overflow-y: auto;
   padding: 20px;
-  font-family: 'Microsoft YaHei', sans-serif;
-  height: calc(100vh - 40px); /* 减去上下的内边距以适应视口 */
-   width: calc(100vw - 40px);
-  overflow: auto; /* 允许滚动 */
+  background-color: #e8f5e9; /* 浅绿色背景 */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 柔和阴影 */
+  font-family: Arial, sans-serif;
+  color: #333; /* 深色字体 */
 }
 
+/* 标题样式 */
 .course-header {
   text-align: center;
   margin-bottom: 20px;
 }
 
-.course-info h3 {
+.course-name {
+  font-size: 1.8em;
+  color: #4caf50; /* 绿色标题 */
+}
+
+.course-description {
+  font-size: 1em;
+  color: #666; /* 次要文本灰色 */
+}
+
+/* 操作按钮 */
+.course-actions {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 30px;
+}
+
+.action-btn {
+  background-color: #4caf50; /* 按钮绿色背景 */
+  color: #fff; /* 按钮文字白色 */
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.action-btn:hover {
+  background-color: #388e3c; /* 鼠标悬浮时的深绿色 */
+  transform: scale(1.05);
+}
+
+/* 信息块样式 */
+.course-info {
+  padding: 10px 20px;
+}
+
+.section-title {
+  font-size: 1.5em;
+  color: #4caf50; /* 绿色小标题 */
+  margin-bottom: 10px;
+  border-bottom: 2px solid #4caf50; /* 绿色下划线 */
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+/* 教学大纲 */
+.syllabus-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+.syllabus-item {
+  margin-bottom: 5px;
+  font-size: 1em;
+  color: #333; /* 深色文本 */
+}
+
+/* 教师信息 */
+.teacher-info {
+  background-color: #fff; /* 白色背景 */
+  padding: 15px;
+  border: 1px solid #ddd; /* 浅灰边框 */
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 柔和阴影 */
+  margin-bottom: 20px;
+}
+
+.teacher-info p {
+  margin: 5px 0;
+}
+
+/* 学生列表 */
+.students-section {
   margin-top: 20px;
 }
 
-.course-actions {
-  position: relative; /* 改为相对定位 */
-  display: flex;
-  flex-wrap: wrap; /* 允许按钮换行 */
-  justify-content: center; /* 居中对齐 */
-  margin-top: 30px;
-  padding: 10px 0; /* 增加内边距以避免按钮与边缘重叠 */
+.students-list {
+  list-style-type: none;
+  padding-left: 0;
 }
 
-button {
-  padding: 10px 20px;
-  border: none;
-  background-color: green;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  margin: 5px; /* 增加边距以防止挤压 */
-}
-
-button:hover {
-  background-color: darkgreen;
-}
-
-/* 添加响应式样式 */
-@media (max-width: 600px) {
-  .course-actions {
-    flex-direction: column; /* 在小屏幕上垂直排列 */
-    align-items: center; /* 居中对齐 */
-  }
+.student-item {
+  padding: 10px;
+  border-bottom: 1px solid #ddd; /* 浅灰色分隔线 */
+  font-size: 1em;
+  color: #333; /* 深色字体 */
 }
 </style>
+
+

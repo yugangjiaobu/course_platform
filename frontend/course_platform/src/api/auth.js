@@ -5,7 +5,7 @@ axios.defaults.baseURL = 'http://localhost:8000';
 function getToken() {
 	return window.localStorage.getItem('token');
 }
-
+//登陆
 export const loginRequest = async (userID, password) => {
 	try {
 		const response = await axios.post('/api/login', {
@@ -19,6 +19,7 @@ export const loginRequest = async (userID, password) => {
 		throw new Error('Login failed');
 	}
 };
+//更新个人信息
 export const updateInfo = async (email, tel) => {
 	const token = getToken();
 	try {
@@ -35,7 +36,7 @@ export const updateInfo = async (email, tel) => {
 		throw new Error('update failed');
 	}
 };
-
+//获取课程列表
 export const getCourseList = async () => {
 	try {
 		const token = getToken();
@@ -51,6 +52,7 @@ export const getCourseList = async () => {
 		throw new Error('GetCourseList failed');
 	}
 };
+//检查是否登陆
 export const checkLogin = async () => {
 	try {
 		const token = getToken();
@@ -65,7 +67,7 @@ export const checkLogin = async () => {
 		throw new Error('The user has not logged in');
 	}
 };
-
+//获取个人信息
 export const fetchUserInfo = async () => {
 	try {
 		const token = getToken();
@@ -80,7 +82,7 @@ export const fetchUserInfo = async () => {
 		throw new Error('Get user info error');
 	}
 };
-
+//获取课程信息
 export const getCourseDetails = async (coursename) => {
 	try {
 		const token = getToken();
@@ -95,7 +97,7 @@ export const getCourseDetails = async (coursename) => {
 		throw new Error('Get course info error');
 	}
 };
-
+//获取作业列表
 export const getAssignMent = async (coursename) => {
 	try {
 		const token = getToken();
@@ -110,7 +112,7 @@ export const getAssignMent = async (coursename) => {
 		throw new Error('error get assignment');
 	}
 };
-
+//上传作业
 export const uploadAssignMent = async (file,name,id) => {
 	try {
 		const token = getToken();
@@ -133,7 +135,7 @@ export const uploadAssignMent = async (file,name,id) => {
 		throw new Error('error upload assignment');
 	}
 };
-
+//创建作业
 export const creatAssignMent = async (file,name,description,title,dueDate) => {
 	try {
 		const token = getToken();
@@ -158,6 +160,7 @@ export const creatAssignMent = async (file,name,description,title,dueDate) => {
 		throw new Error('error post assignment');
 	}
 };
+//上传分数
 export const submitScore = async (sid,aid,cname,score) => {
 	try {
 		const token = getToken();
@@ -176,8 +179,7 @@ export const submitScore = async (sid,aid,cname,score) => {
 		throw new Error('error upload assignment');
 	}
 };
-
-
+//发送通知
 export const sendNotification = async (content) => {
 	try {
 		console.log(content);
@@ -195,7 +197,7 @@ export const sendNotification = async (content) => {
 		throw new Error('error post notice');
 	}
 };
-
+//获取通知
 export const getNotifications = async () => {
 	try {
 		const token = getToken();
@@ -211,7 +213,7 @@ export const getNotifications = async () => {
 		throw new Error('error get notice');
 	}
 };
-
+//获取资源
 export const getResource = async (coursename) => {
 	try {
 		const token = getToken();
@@ -226,6 +228,7 @@ export const getResource = async (coursename) => {
 		throw new Error('error get resourse');
 	}
 };
+//删除资源
 export const deleteResource = async (id) => {
 	try {
 		const token = getToken();
@@ -242,6 +245,7 @@ export const deleteResource = async (id) => {
 		throw new Error('error delete resource');
 	}
 };
+//上传资源
 export const uploadResource = async (coursename,file,name) => {
 	try {
 		const token = getToken();
@@ -261,5 +265,140 @@ export const uploadResource = async (coursename,file,name) => {
 	} catch (error) {
 		console.log(error.response);
 		throw new Error('error upload resource ');
+	}
+};
+//获取帖子列表
+export const getPostList = async (coursename) => {
+	try {
+		const token = getToken();
+		const response = await axios.get('/api/getpostlist?coursename='+coursename, {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
+		return response.data;
+	} catch (error) {
+		console.log(error.response);
+		throw new Error('error get postlist');
+	}
+};
+//获取帖子信息
+export const getPost = async (coursename,postid) => {
+	try {
+		const token = getToken();
+		const response = await axios.get(`/api/getpost?coursename=${coursename}&postid=${postid}`, {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
+		return response.data;
+	} catch (error) {
+		console.log(error.response);
+		throw new Error('error get post');
+	}
+};
+//上传帖子
+export const Post = async (formdata) => {
+	try {
+		const token = getToken();
+		const response = await axios.post('/api/post',formdata,{
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
+		return response.data;
+	} catch (error) {
+		console.log(error.response);
+		throw new Error('error post');
+	}
+};
+//点赞/取消点赞
+export const LikeorUnlike = async (formdata) => {
+	try {
+		const token = getToken();
+		const response = await axios.post('/api/like',formdata,{
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
+		return response.data;
+	} catch (error) {
+		console.log(error.response);
+		throw new Error('error like');
+	}
+};
+//发表评论
+export const Comment = async (formdata) => {
+	try {
+		const token = getToken();
+		const response = await axios.post('/api/comment',formdata,{
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
+		return response.data;
+	} catch (error) {
+		console.log(error.response);
+		throw new Error('error comment');
+	}
+};
+//删除帖子
+export const DeletePost = async (formdata) => {
+	try {
+		const token = getToken();
+		const response = await axios.post('/api/deletepost',formdata,{
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
+		return response.data;
+	} catch (error) {
+		console.log(error.response);
+		throw new Error('error delete post');
+	}
+};
+//删除评论
+export const DeleteComment = async (formdata) => {
+	try {
+		const token = getToken();
+		const response = await axios.post('/api/deletecomment',formdata,{
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
+		return response.data;
+	} catch (error) {
+		console.log(error.response);
+		throw new Error('error delete comment');
+	}
+};
+//获取点赞帖子列表
+export const getLkePost = async () => {
+	try {
+		const token = getToken();
+		const response = await axios.get(`/api/getlikelist`, {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
+		return response.data;
+	} catch (error) {
+		console.log(error.response);
+		throw new Error('error get likelist');
+	}
+};
+//获取自己发布的帖子列表
+export const getMyPost = async () => {
+	try {
+		const token = getToken();
+		const response = await axios.get(`/api/getmylist`, {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
+		return response.data;
+	} catch (error) {
+		console.log(error.response);
+		throw new Error('error get mylist');
 	}
 };

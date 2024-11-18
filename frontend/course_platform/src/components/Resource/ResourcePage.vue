@@ -24,7 +24,7 @@
 			</div>
 			<p v-else>没有资源。</p>
 
-			<div class='back-button' @click="backToHome()">返回首页</div>
+			<div class='back-button' @click="backToHome()">返回</div>
 		</div>
 	</div>
 </template>
@@ -101,7 +101,8 @@
 				}
 			},
 			backToHome() {
-				this.$router.push('/home');
+				const course=this.$route.params.name;
+				this.$router.push(`/coursedetail/${course}`);
 			}
 		},
 		async mounted() {
