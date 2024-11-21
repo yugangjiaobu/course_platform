@@ -1,71 +1,61 @@
 package com.example.backend.dao;
 
 import com.example.backend.entity.CourseAssignment;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 @Repository
 public class CourseAssignmentDAOImpl implements CourseAssignmentDAO {
-
-    private final JdbcTemplate jdbcTemplate;
-
     @Autowired
-    public CourseAssignmentDAOImpl(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
+
+    @Override
+    public void addAssignment(CourseAssignment assignment) {
+        String sql = "INSERT INTO courseassignments (assignment_id, course_id, title, description, deadline, created_by, created_at, updated_at) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql,
+                assignment.getAssignmentId(),
+                assignment.getCourseId(),
+                assignment.getTitle(),
+                assignment.getDescription(),
+                assignment.getDeadline(),
+                assignment.getCreatedBy(),
+                assignment.getCreatedAt(),
+                assignment.getUpdatedAt());
     }
 
-    public void addCourseAssignment(CourseAssignment assignment) {
-        String sql = "INSERT INTO courseassignments (course_id, title, description, deadline, created_by)" +
-                "VALUES (?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, assignment.getCourseId(), assignment.getTitle(), assignment.getDescription(),
-                Timestamp.valueOf(assignment.getDeadline()), assignment.getCreatedBy());
-    }
-
-    public CourseAssignment getCourseAssignment(int assignmentId) {
+    @Override
+    public CourseAssignment getAssignmentById(String assignmentId) {
         String sql = "SELECT * FROM courseassignments WHERE assignment_id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{assignmentId}, (rs, rowNum) -> {
-            return new CourseAssignment(
-                    rs.getInt("assignment_id"),
-                    rs.getString("course_id"),
-                    rs.getString("title"),
-                    rs.getString("description"),
-                    rs.getTimestamp("deadline").toLocalDateTime(),
-                    rs.getString("created_by"),
-                    rs.getTimestamp("created_at").toLocalDateTime(),
-                    rs.getTimestamp("updated_at").toLocalDateTime()
-            );
-        });
+        return jdbcTemplate.queryForObject(sql, new Object[]{assignmentId}, new AssignmentRowMapper());
     }
 
-    public List<CourseAssignment> getAllCourseAssignments() {
-        String sql = "SELECT * FROM courseassignments";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> {
-            return new CourseAssignment(
-                    rs.getInt("assignment_id"),
-                    rs.getString("course_id"),
-                    rs.getString("title"),
-                    rs.getString("description"),
-                    rs.getTimestamp("deadline").toLocalDateTime(),
-                    rs.getString("created_by"),
-                    rs.getTimestamp("created_at").toLocalDateTime(),
-                    rs.getTimestamp("updated_at").toLocalDateTime()
-            );
-        });
+    @Override
+    public List<CourseAssignment> getAssignmentsByCourseId(String courseId) {
+        String sql = "SELECT * FROM courseassignments WHERE course_id = ?";
+        return jdbcTemplate.query(sql, new Object[]{courseId}, new AssignmentRowMapper());
     }
 
-    public void updateCourseAssignment(CourseAssignment assignment) {
-        String sql = "UPDATE courseassignments SET course_id = ?, title = ?, description = ?, deadline = ?," +
-                "created_by = ? WHERE assignment_id = ?";
-        jdbcTemplate.update(sql, assignment.getCourseId(), assignment.getTitle(), assignment.getDescription(),
-                Timestamp.valueOf(assignment.getDeadline()), assignment.getCreatedBy(), assignment.getAssignmentId());
-    }
-
-    public void deleteCourseAssignment(int assignmentId) {
-        String sql = "DELETE FROM courseassignments WHERE assignment_id = ?";
-        jdbcTemplate.update(sql, assignmentId);
+    private static class AssignmentRowMapper implements RowMapper<CourseAssignment> {
+        @Override
+        public CourseAssignment mapRow(ResultSet rs, int rowNum) throws SQLException, SQLException {
+            CourseAssignment assignment = new CourseAssignment();
+            assignment.setAssignmentId(rs.getString("assignment_id"));
+            assignment.setCourseId(rs.getString("course_id"));
+            assignment.setTitle(rs.getString("title"));
+            assignment.setDescription(rs.getString("description"));
+            assignment.setDeadline(rs.getTimestamp("deadline"));
+            assignment.setCreatedBy(rs.getString("created_by"));
+            assignment.setCreatedAt(rs.getTimestamp("created_at"));
+            assignment.setUpdatedAt(rs.getTimestamp("updated_at"));
+            return assignment;
+        }
     }
 }
