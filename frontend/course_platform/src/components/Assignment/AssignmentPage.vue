@@ -137,7 +137,17 @@
 		},
 		methods: {
 			async fetchAssignments() {
-				this.assignments = await getAssignMent(this.$route.params.name);
+				const assignments = await getAssignMent(this.$route.params.name);
+        this.assignments = assignments.map(assignment => {
+          if (assignment.attachment) {
+            assignment.attachment = `http://localhost:8000${assignment.attachment}`;
+          }
+          assignment.submissions.map(sub=>{
+            sub.file=`http://localhost:8000${sub.file}/${sub.studentId}`;
+            return sub;
+          });
+          return assignment;
+        });
 			},
 			viewAssignment(assignment) {
 				this.modalAssignment = assignment;
@@ -145,7 +155,8 @@
 			},
 			viewStudentSubmissions(assignment) {
 				this.currentAssignment = assignment;
-				this.showStudentSubmissionsModal = true;
+
+        this.showStudentSubmissionsModal = true;
 			},
 			handleFileUpload(event) {
 				this.uploadedFile = event.target.files[0];
