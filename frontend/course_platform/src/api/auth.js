@@ -106,6 +106,7 @@ export const getAssignMent = async (coursename) => {
 				Authorization: `Bearer ${token}`
 			}
 		});
+		console.log(response.data)
 		return response.data;
 	} catch (error) {
 		console.log(error.response);
@@ -222,6 +223,7 @@ export const getResource = async (coursename) => {
 				Authorization: `Bearer ${token}`
 			}
 		});
+		console.log(response.data);
 		return response.data;
 	} catch (error) {
 		console.log(error.response);
