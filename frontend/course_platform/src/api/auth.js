@@ -375,7 +375,7 @@ export const DeleteComment = async (formdata) => {
 	}
 };
 //获取点赞帖子列表
-export const getLkePost = async () => {
+export const getLikePost = async () => {
 	try {
 		const token = getToken();
 		const response = await axios.get(`/api/getlikelist`, {
@@ -402,5 +402,70 @@ export const getMyPost = async () => {
 	} catch (error) {
 		console.log(error.response);
 		throw new Error('error get mylist');
+	}
+};
+
+//获取考试列表
+export const getExam = async (coursename) => {
+	try {
+		const token = getToken();
+		const response = await axios.get(`/api/getexams?coursename=${coursename}`, {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
+		console.log(response.data);
+		return response.data;
+	} catch (error) {
+		console.log(error.response);
+		throw new Error('error get exams');
+	}
+};
+
+//布置考试
+export const setExam = async (formdata) => {
+	try {
+		const token = getToken();
+		const response = await axios.post(`/api/setexam`, formdata,{
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
+		return response.data;
+	} catch (error) {
+		console.log(error.response);
+		throw new Error('error set exams');
+	}
+};
+
+//删除考试
+export const delExam = async (formdata) => {
+	try {
+		const token = getToken();
+		const response = await axios.post(`/api/deleteexam`, formdata,{
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
+		return response.data;
+	} catch (error) {
+		console.log(error.response);
+		throw new Error('error del exam');
+	}
+};
+
+//上传考试分数
+export const uploadexamscore = async (formdata) => {
+	try {
+		const token = getToken();
+		const response = await axios.post(`/api/uploadexamscore`, formdata,{
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
+		return response.data;
+	} catch (error) {
+		console.log(error.response);
+		throw new Error('error upload score');
 	}
 };
