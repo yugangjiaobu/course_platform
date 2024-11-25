@@ -8,6 +8,7 @@ import ResourcePage from '../components/Resource/ResourcePage.vue';
 import NoticePage from '../components/NoticePage.vue';
 import CourseDiscussPage from '../components/Discuss/CourseDiscussPage.vue';
 import PostDetailsPage from '../components/Discuss/PostDetailsPage.vue';
+import ExamPage from '../components/Exam/ExamPage.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 
@@ -62,6 +63,11 @@ const routes = [
 		path:'/course/:name/discuss/:postid',
 		name:'PostDetailsPage',
 		component:PostDetailsPage,
+	},
+	{
+		path:'/course/:name/exams',
+		name:'ExamPage',
+		component:ExamPage,
 	},
   // 其他路由...
 ];
