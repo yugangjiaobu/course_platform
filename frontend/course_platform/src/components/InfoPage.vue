@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { checkLogin, fetchUserInfo, updateInfo, getLikePost, getMyPost } from "../api/auth.js";
+import {  fetchUserInfo, updateInfo, getLikePost, getMyPost } from "../api/auth.js";
 
 export default {
   data() {
@@ -113,10 +113,8 @@ export default {
   },
   async mounted() {
     try {
-      const userstate = await checkLogin();
       await this.fetchinfo();
       await this.fetchPostLists();
-      console.log("User State:", userstate);
     } catch (err) {
       console.error(err);
       alert("用户未登陆");
