@@ -4,11 +4,11 @@
 		<button class="primary-button" @click="showModal = true">发布帖子</button>
 
 		<ul class="post-list">
-			<li class="post-item" v-for="post in posts" :key="post.postid" @click="goToPostDetails(post.postid)">
+			<li class="post-item" v-for="post in posts" :key="post.postid" @click="goToPostDetails(post.postId)">
 				<h3 class="post-title">{{ post.title }}</h3>
 				<p class="post-meta">作者: {{ post.author }} | 日期: {{ post.time }}</p>
 				<button v-if="isTeacher || post.author === currentUser" class="delete-button"
-					@click.stop="deletePost(post.postid)">
+					@click.stop="deletePost(post.postId)">
 					删除
 				</button>
 			</li>
@@ -66,6 +66,7 @@
 			try {
 				await this.checkUserRole();
 				await this.loadPosts();
+        //console.log(this.posts);
 			} catch (err) {
 				console.error(err);
 			}
@@ -101,12 +102,13 @@
 					if (res.role === 'teacher') {
 						this.isTeacher = true;
 					}
+          this.currentUser=res.name;
 				} catch (err) {
 					console.error('Failed to fetch user info:', err);
 				}
 			},
-			goToPostDetails(postid) {
-				this.$router.push(`/course/${this.courseName}/discuss/${postid}`);
+			goToPostDetails(postId) {
+				this.$router.push(`/course/${this.courseName}/discuss/${postId}`);
 			},
 		},
 		created() {
