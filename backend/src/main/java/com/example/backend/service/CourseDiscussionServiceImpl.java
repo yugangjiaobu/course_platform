@@ -108,14 +108,16 @@ public class CourseDiscussionServiceImpl implements CourseDiscussionService {
     }
 
     @Override
-    public void deleteComment(DeleteCommentDTO deleteCommentDTO) {
+    public void deleteComment(DeleteCommentDTO deleteCommentDTO) throws SQLException {
         Comment comment = commentDAO.findById(deleteCommentDTO.getCommentId());
+        Course course = courseDAO.getCourseByName(deleteCommentDTO.getCourseName());
 
-        if (comment != null && comment.getUserId().equals(deleteCommentDTO.getUserId())) {
+        if (comment != null && ((comment.getUserId().equals(deleteCommentDTO.getUserId())) ||
+                (deleteCommentDTO.getUserId().equals(course.getTeacherId())))) {
             commentDAO.delete(comment);
-        } /*else {
+        } else {
             throw new RuntimeException("Comment not found or user not authorized to delete");
-        }*/
+        }
     }
 
     @Override
