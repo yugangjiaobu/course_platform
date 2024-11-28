@@ -113,9 +113,9 @@ public class CourseDiscussionServiceImpl implements CourseDiscussionService {
 
         if (comment != null && comment.getUserId().equals(deleteCommentDTO.getUserId())) {
             commentDAO.delete(comment);
-        } else {
+        } /*else {
             throw new RuntimeException("Comment not found or user not authorized to delete");
-        }
+        }*/
     }
 
     @Override
