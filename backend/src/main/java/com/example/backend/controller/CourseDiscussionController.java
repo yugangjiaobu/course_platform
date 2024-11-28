@@ -73,7 +73,7 @@ public class CourseDiscussionController {
     @PostMapping("/deletecomment")
     public ResponseEntity<String> deleteComment(
             @RequestBody DeleteCommentDTO deleteCommentDTO,
-            @RequestHeader("Authorization") String token) {
+            @RequestHeader("Authorization") String token) throws SQLException {
 
         String jwtToken = extractJwtToken(token);
         String userId = JWTUtil.extractUserID(jwtToken);
