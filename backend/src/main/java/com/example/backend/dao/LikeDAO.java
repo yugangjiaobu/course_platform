@@ -10,4 +10,7 @@ public interface LikeDAO {
     void update(Like like);
     void delete(Like like);
     List<Like> findAll();
+
+    int countLikesByPostId(String postId);
+    Like findByPostIdAndUserId(String postId, String userId);
 }
