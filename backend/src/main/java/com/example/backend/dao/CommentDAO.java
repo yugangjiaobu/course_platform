@@ -10,4 +10,5 @@ public interface CommentDAO {
     void update(Comment comment);
     void delete(Comment comment);
     List<Comment> findAll();
+    List<Comment> findByPostId(String postId);
 }
