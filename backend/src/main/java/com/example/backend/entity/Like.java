@@ -2,15 +2,12 @@ package com.example.backend.entity;
 
 import java.sql.Timestamp;
 
-// Like.java
 public class Like {
     private String likeId;
     private String postId;
-    private String commentId;
     private String userId;
     private Timestamp createdAt;
 
-    // Getters and setters...
     public String getLikeId() {
         return likeId;
     }
@@ -25,14 +22,6 @@ public class Like {
 
     public void setPostId(String postId) {
         this.postId = postId;
-    }
-
-    public String getCommentId() {
-        return commentId;
-    }
-
-    public void setCommentId(String commentId) {
-        this.commentId = commentId;
     }
 
     public String getUserId() {
