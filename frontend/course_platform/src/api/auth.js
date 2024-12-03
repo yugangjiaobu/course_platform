@@ -420,11 +420,45 @@ export const getExam = async (coursename) => {
 	}
 };
 
+//获取测验列表
+export const getTest = async (coursename) => {
+	try {
+		const token = getToken();
+		const response = await axios.get(`/api/gettests?coursename=${coursename}`, {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
+		console.log(response.data);
+		return response.data;
+	} catch (error) {
+		console.log(error.response);
+		throw new Error('error get tests');
+	}
+};
+
+//获取测验信息
+export const getTestDetail = async (coursename,testname) => {
+	try {
+		const token = getToken();
+		const response = await axios.get(`/api/gettestdetail?coursename=${coursename}&testname=${testname}`, {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
+		console.log(response.data);
+		return response.data;
+	} catch (error) {
+		console.log(error.response);
+		throw new Error('error get test detaile');
+	}
+};
+
 //布置考试
 export const setExam = async (formdata) => {
 	try {
 		const token = getToken();
-		const response = await axios.post(`/api/setexam`, formdata,{
+		const response = await axios.post('/api/setexam',formdata,{
 			headers: {
 				Authorization: `Bearer ${token}`
 			}
@@ -432,15 +466,15 @@ export const setExam = async (formdata) => {
 		return response.data;
 	} catch (error) {
 		console.log(error.response);
-		throw new Error('error set exams');
+		throw new Error('error set exam');
 	}
 };
 
-//删除考试
-export const delExam = async (formdata) => {
+//布置测试
+export const setTest = async (formdata) => {
 	try {
 		const token = getToken();
-		const response = await axios.post(`/api/deleteexam`, formdata,{
+		const response = await axios.post('/api/settest',formdata,{
 			headers: {
 				Authorization: `Bearer ${token}`
 			}
@@ -448,15 +482,15 @@ export const delExam = async (formdata) => {
 		return response.data;
 	} catch (error) {
 		console.log(error.response);
-		throw new Error('error del exam');
+		throw new Error('error set test');
 	}
 };
 
-//上传考试分数
-export const uploadexamscore = async (formdata) => {
+//上传测试答案
+export const uploadTest = async (formdata) => {
 	try {
 		const token = getToken();
-		const response = await axios.post(`/api/uploadexamscore`, formdata,{
+		const response = await axios.post('/api/uploadtest',formdata,{
 			headers: {
 				Authorization: `Bearer ${token}`
 			}
@@ -464,6 +498,6 @@ export const uploadexamscore = async (formdata) => {
 		return response.data;
 	} catch (error) {
 		console.log(error.response);
-		throw new Error('error upload score');
+		throw new Error('error upload test');
 	}
 };
