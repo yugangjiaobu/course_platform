@@ -59,6 +59,17 @@
 				<input type="datetime-local" v-model="examForm.time" required />
 				<input type="file" @change="handleExamFile" required />
 				<textarea v-model="examForm.notice" placeholder="考试注意事项"></textarea>
+				<div>
+					座位号排序:
+					<label>
+						<input type="radio" v-model="examForm.setstate" :value="0" />
+						顺序
+					</label>
+					<label>
+						<input type="radio" v-model="examForm.setstate" :value="1" />
+						随机
+					</label>
+				</div>
 				<button type="submit">提交</button>
 			</form>
 		</Modal>
@@ -169,8 +180,10 @@
 				showResultsModal: false,
 				showTestDetailModal: false,
 				examForm: {
+					coursename: this.coursename,
 					examname: "",
 					location: "",
+					setstate: 0,
 					time: "",
 					notice: "",
 					file: null,
@@ -310,116 +323,122 @@
 
 <style scoped>
 	.exam-page {
-	  font-family: Arial, sans-serif;
-	  padding: 20px;
-	  background-color: #f7f8f3; /* 浅绿色背景 */
-	  color: #333;
-	  width: 100vw;
-	  height: 100vh;
-	  overflow-y: auto;
+		font-family: Arial, sans-serif;
+		padding: 20px;
+		background-color: #f7f8f3;
+		/* 浅绿色背景 */
+		color: #333;
+		width: 100vw;
+		height: 100vh;
+		overflow-y: auto;
 	}
-	
+
 	h1 {
-	  color: #5c8c57; /* 浅绿色主题 */
-	  text-align: center;
-	  margin-bottom: 20px;
+		color: #5c8c57;
+		/* 浅绿色主题 */
+		text-align: center;
+		margin-bottom: 20px;
 	}
-	
+
 	button {
-	  padding: 10px 15px;
-	  background-color: #5c8c57;
-	  color: white;
-	  border: none;
-	  border-radius: 5px;
-	  cursor: pointer;
-	  font-size: 16px;
-	  transition: background-color 0.3s;
+		padding: 10px 15px;
+		background-color: #5c8c57;
+		color: white;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		font-size: 16px;
+		transition: background-color 0.3s;
 	}
-	
+
 	button:hover {
-	  background-color: #4c7d4a; /* 鼠标悬停效果 */
+		background-color: #4c7d4a;
+		/* 鼠标悬停效果 */
 	}
-	
+
 	h2 {
-	  color: #5c8c57;
-	  margin-top: 20px;
-	  font-size: 20px;
+		color: #5c8c57;
+		margin-top: 20px;
+		font-size: 20px;
 	}
-	
+
 	ul {
-	  padding-left: 20px;
+		padding-left: 20px;
 	}
-	
+
 	li {
-	  margin-bottom: 10px;
+		margin-bottom: 10px;
 	}
-	
+
 	strong {
-	  font-weight: bold;
+		font-weight: bold;
 	}
-	
+
 	a {
-	  color: #5c8c57;
+		color: #5c8c57;
 	}
-	
+
 	a:hover {
-	  text-decoration: underline;
+		text-decoration: underline;
 	}
-	
-	input, select, textarea {
-	  width: 100%;
-	  padding: 10px;
-	  margin: 10px 0;
-	  border: 1px solid #ccc;
-	  border-radius: 5px;
-	  font-size: 16px;
-	}
-	
+
+	input,
+	select,
 	textarea {
-	  resize: vertical;
+		width: 100%;
+		padding: 10px;
+		margin: 10px 0;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		font-size: 16px;
 	}
-	
+
+	textarea {
+		resize: vertical;
+	}
+
 	button[type="submit"] {
-	  margin-top: 20px;
-	  width: 100%;
+		margin-top: 20px;
+		width: 100%;
 	}
-	
+
 	form {
-	  display: flex;
-	  flex-direction: column;
+		display: flex;
+		flex-direction: column;
 	}
-	
+
 	form button[type="submit"] {
-	  background-color: #5c8c57;
-	  color: white;
-	  border-radius: 5px;
-	  padding: 12px;
-	  font-size: 16px;
-	  border: none;
-	  cursor: pointer;
-	  transition: background-color 0.3s;
+		background-color: #5c8c57;
+		color: white;
+		border-radius: 5px;
+		padding: 12px;
+		font-size: 16px;
+		border: none;
+		cursor: pointer;
+		transition: background-color 0.3s;
 	}
-	
+
 	form button[type="submit"]:hover {
-	  background-color: #4c7d4a;
+		background-color: #4c7d4a;
 	}
+
 	@media (max-width: 768px) {
-	  .modal-content {
-	    width: 90vw; /* 在小屏幕上占宽度的90% */
-	    padding: 20px;
-	  }
-	
-	  button {
-	    font-size: 14px;
-	    padding: 8px 12px;
-	  }
-	
-	  input, select, textarea {
-	    font-size: 14px;
-	    padding: 8px;
-	  }
+		.modal-content {
+			width: 90vw;
+			/* 在小屏幕上占宽度的90% */
+			padding: 20px;
+		}
+
+		button {
+			font-size: 14px;
+			padding: 8px 12px;
+		}
+
+		input,
+		select,
+		textarea {
+			font-size: 14px;
+			padding: 8px;
+		}
 	}
-
-
-
 </style>
