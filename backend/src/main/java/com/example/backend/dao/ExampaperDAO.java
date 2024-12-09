@@ -6,9 +6,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface ExampaperDAO {
-    public void addExampaper(Exampaper exampaper) throws SQLException;
-    public Exampaper getExampaperById(int paperId) throws SQLException;
-    public void updateExampaper(Exampaper exampaper) throws SQLException;
-    public void deleteExampaper(int paperId) throws SQLException;
-    public List<Exampaper> getAllExampapers() throws SQLException;
+    void save(Exampaper exampaper) throws SQLException;
+    List<Exampaper> findByExamId(String notbutExamId) throws SQLException;
+    List<Exampaper> findByCourseId(String courseId) throws SQLException;
+    List<Exampaper> findByCourseIdAndTestname(String courseId, String testname) throws SQLException;
+    List<Exampaper> findExampaperByCourseAndTestname(String courseId, String testname);
+    String getNotbutExamIdByTestname(String testname) throws SQLException;
 }
