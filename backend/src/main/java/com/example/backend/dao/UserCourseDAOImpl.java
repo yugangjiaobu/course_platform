@@ -51,4 +51,16 @@ public class UserCourseDAOImpl implements UserCourseDAO {
         String query = "DELETE FROM user_courses WHERE user_id = ? AND course_id = ?";
         jdbcTemplate.update(query, userId, courseId);
     }
+
+    @Override
+    public List<UserCourse> getAllStudentsByCourseId(String courseId) throws SQLException {
+        String query = "SELECT * FROM user_courses WHERE course_id = ?";
+        return jdbcTemplate.query(query, new Object[]{courseId}, (rs, rowNum) -> {
+            return new UserCourse(
+                    rs.getString("user_id"),
+                    rs.getString("course_id"),
+                    rs.getTimestamp("enrolled_at")
+            );
+        });
+    }
 }
