@@ -1,25 +1,24 @@
 package com.example.backend.entity;
 
 public class ExamRoom {
-    private int roomId;
-    private int examId;
+    private String roomId;
+    private String examId;
     private String roomName;
     private String seatingOrder;
 
-    // Getters and Setters
-    public int getRoomId() {
+    public String getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(int roomId) {
+    public void setRoomId(String roomId) {
         this.roomId = roomId;
     }
 
-    public int getExamId() {
+    public String getExamId() {
         return examId;
     }
 
-    public void setExamId(int examId) {
+    public void setExamId(String examId) {
         this.examId = examId;
     }
 
