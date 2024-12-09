@@ -6,9 +6,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface CourseExamDAO {
-    public void addCourseExam(CourseExam courseExam) throws SQLException;
-    public CourseExam getCourseExamById(int examId) throws SQLException;
-    public void updateCourseExam(CourseExam courseExam) throws SQLException;
-    public void deleteCourseExam(int examId) throws SQLException;
-    public List<CourseExam> getAllCourseExams() throws SQLException;
+    void save(CourseExam courseExam) throws SQLException;
+    CourseExam getById(String examId) throws SQLException;
+    List<CourseExam> getExamsByCourseName(String courseName) throws SQLException;
+    CourseExam getCourseExamById(String examId) throws SQLException;
 }
