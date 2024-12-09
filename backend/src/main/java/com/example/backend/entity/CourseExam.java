@@ -3,7 +3,7 @@ package com.example.backend.entity;
 import java.sql.Timestamp;
 
 public class CourseExam {
-    private int examId;
+    private String examId;
     private String courseId;
     private String title;
     private String description;
@@ -11,13 +11,13 @@ public class CourseExam {
     private String createdBy;
     private Timestamp createdAt;
     private Timestamp updatedAt;
+    private String answer;
 
-    // Getters and Setters
-    public int getExamId() {
+    public String getExamId() {
         return examId;
     }
 
-    public void setExamId(int examId) {
+    public void setExamId(String examId) {
         this.examId = examId;
     }
 
@@ -75,5 +75,13 @@ public class CourseExam {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 }
