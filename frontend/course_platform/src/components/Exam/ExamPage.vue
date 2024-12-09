@@ -32,10 +32,19 @@
 			<h2>测验列表</h2>
 			<ul>
 				<li v-for="test in tests" :key="test.testname">
-					{{ test.testname }}-截至时间:{{test.deadline}}
-					<button @click="viewTestDetail(test.testname)">进入测验</button>
+					{{ test.testname }} - 截止时间: {{ test.deadline }} - 分数: {{ test.score }}
+					<template v-if="test.score !== null">
+						<p>已作答</p>
+					</template>
+					<template v-else-if="new Date() > new Date(test.deadline)">
+						<p>已经过期</p>
+					</template>
+					<template v-else>
+						<button @click="viewTestDetail(test.testname)">进入测验</button>
+					</template>
 				</li>
 			</ul>
+
 
 			<h2>考试列表</h2>
 			<ul>
@@ -131,21 +140,21 @@
 			</table>
 		</Modal>
 
-    <!-- 测验详情模态框 -->
-    <Modal :visible="showTestDetailModal" @close="showTestDetailModal = false">
-      <h3>测验详情</h3>
-      <form v-if="Array.isArray(currentTestDetail) && currentTestDetail.length > 0" @submit.prevent="submitTest">
-        <div v-for="(question, index) in currentTestDetail" :key="question.id">
-          <h4>{{ question.title }}</h4>
-          <div v-for="(option, optionIndex) in question.options" :key="optionIndex">
-            <input type="radio" :id="`option-${index}-${optionIndex}`" :value="optionIndex"
-                   v-model="answers[index]" required />
-            <label :for="`option-${index}-${optionIndex}`">{{ option }}</label>
-          </div>
-        </div>
-        <button type="submit">提交</button>
-      </form>
-    </Modal>
+		<!-- 测验详情模态框 -->
+		<Modal :visible="showTestDetailModal" @close="showTestDetailModal = false">
+			<h3>测验详情</h3>
+			<form v-if="Array.isArray(currentTestDetail) && currentTestDetail.length > 0" @submit.prevent="submitTest">
+				<div v-for="(question, index) in currentTestDetail" :key="question.id">
+					<h4>{{ question.title }}</h4>
+					<div v-for="(option, optionIndex) in question.options" :key="optionIndex">
+						<input type="radio" :id="`option-${index}-${optionIndex}`" :value="optionIndex"
+							v-model="answers[index]" required />
+						<label :for="`option-${index}-${optionIndex}`">{{ option }}</label>
+					</div>
+				</div>
+				<button type="submit">提交</button>
+			</form>
+		</Modal>
 
 	</div>
 </template>
@@ -178,7 +187,7 @@
 				showTestModal: false,
 				showResultsModal: false,
 				showTestDetailModal: false,
-        currenttestname:'',
+				currenttestname: '',
 				examForm: {
 					coursename: '',
 					examname: "",
@@ -239,13 +248,13 @@
 			},
 			async fetchExamsAndTests() {
 				try {
-          let result=await getExam(this.coursename);
-					this.exams = result.map((exam)=>{
-            if(exam.url){
-              exam.url=`http://localhost:8000${exam.url}`;
-            }
-            return exam;
-          });
+					let result = await getExam(this.coursename);
+					this.exams = result.map((exam) => {
+						if (exam.url) {
+							exam.url = `http://localhost:8000${exam.url}`;
+						}
+						return exam;
+					});
 					this.tests = await getTest(this.coursename);
 				} catch (error) {
 					console.error("Failed to fetch exams or tests", error);
@@ -257,7 +266,7 @@
 			async createExam() {
 				const formData = new FormData();
 				Object.keys(this.examForm).forEach(key => {
-          //console.log(this.examForm[key]);
+					//console.log(this.examForm[key]);
 					formData.append(key, this.examForm[key]);
 				});
 				try {
@@ -295,29 +304,29 @@
 			async viewTestDetail(testname) {
 				try {
 					this.currentTestDetail = await getTestDetail(this.coursename, testname);
-          this.currenttestname=testname;
+					this.currenttestname = testname;
 					this.showTestDetailModal = true;
 				} catch (error) {
 					console.error("Failed to fetch test detail", error);
 				}
 			},
-      async submitTest() {
-        try {
-          const payload = {
-            coursename: this.coursename,
-            testname: this.currenttestname, // 确保有测试名称
-            answers: this.currentTestDetail.map((question, index) => ({
-              id: question.id, // 使用题目 ID
-              answer: this.answers[index], // 用户选择的答案索引
-            })),
-          };
+			async submitTest() {
+				try {
+					const payload = {
+						coursename: this.coursename,
+						testname: this.currenttestname, // 确保有测试名称
+						answers: this.currentTestDetail.map((question, index) => ({
+							id: question.id, // 使用题目 ID
+							answer: this.answers[index], // 用户选择的答案索引
+						})),
+					};
 
-          await uploadTest(payload); // 将答案提交给后端
-          this.showTestDetailModal = false; // 隐藏模态框
-        } catch (error) {
-          console.error("Failed to submit test", error);
-        }
-      },
+					await uploadTest(payload); // 将答案提交给后端
+					this.showTestDetailModal = false; // 隐藏模态框
+				} catch (error) {
+					console.error("Failed to submit test", error);
+				}
+			},
 		},
 		async created() {
 			this.fetchExamsAndTests();
@@ -325,7 +334,7 @@
 			if (res.role === 'teacher') {
 				this.isTeacher = true;
 			}
-      this.examForm.coursename=this.coursename;
+			this.examForm.coursename = this.coursename;
 		},
 	};
 </script>
