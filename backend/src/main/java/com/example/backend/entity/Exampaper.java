@@ -3,27 +3,33 @@ package com.example.backend.entity;
 import java.sql.Timestamp;
 
 public class Exampaper {
-    private int paperId;
-    private int examId;
+    private String paperId;
+    private String notbutExamId;
     private String paperContent;
-    private String uploadedBy;
-    private Timestamp uploadedAt;
+    private int questionNum;
+    private String answerChoice;
+    private String choiceA;
+    private String choiceB;
+    private String choiceC;
+    private String choiceD;
+    private Timestamp deadline;
+    private String courseId;
+    private String testName;
 
-    // Getters and Setters
-    public int getPaperId() {
+    public String getPaperId() {
         return paperId;
     }
 
-    public void setPaperId(int paperId) {
+    public void setPaperId(String paperId) {
         this.paperId = paperId;
     }
 
-    public int getExamId() {
-        return examId;
+    public String getNotbutExamId() {
+        return notbutExamId;
     }
 
-    public void setExamId(int examId) {
-        this.examId = examId;
+    public void setNotbutExamId(String notbutExamId) {
+        this.notbutExamId = notbutExamId;
     }
 
     public String getPaperContent() {
@@ -34,19 +40,75 @@ public class Exampaper {
         this.paperContent = paperContent;
     }
 
-    public String getUploadedBy() {
-        return uploadedBy;
+    public int getQuestionNum() {
+        return questionNum;
     }
 
-    public void setUploadedBy(String uploadedBy) {
-        this.uploadedBy = uploadedBy;
+    public void setQuestionNum(int questionNum) {
+        this.questionNum = questionNum;
     }
 
-    public Timestamp getUploadedAt() {
-        return uploadedAt;
+    public String getAnswerChoice() {
+        return answerChoice;
     }
 
-    public void setUploadedAt(Timestamp uploadedAt) {
-        this.uploadedAt = uploadedAt;
+    public void setAnswerChoice(String answerChoice) {
+        this.answerChoice = answerChoice;
+    }
+
+    public String getChoiceA() {
+        return choiceA;
+    }
+
+    public void setChoiceA(String choiceA) {
+        this.choiceA = choiceA;
+    }
+
+    public String getChoiceB() {
+        return choiceB;
+    }
+
+    public void setChoiceB(String choiceB) {
+        this.choiceB = choiceB;
+    }
+
+    public String getChoiceC() {
+        return choiceC;
+    }
+
+    public void setChoiceC(String choiceC) {
+        this.choiceC = choiceC;
+    }
+
+    public String getChoiceD() {
+        return choiceD;
+    }
+
+    public void setChoiceD(String choiceD) {
+        this.choiceD = choiceD;
+    }
+
+    public Timestamp getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Timestamp deadline) {
+        this.deadline = deadline;
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
+    public String getTestName() {
+        return testName;
+    }
+
+    public void setTestName(String testName) {
+        this.testName = testName;
     }
 }
