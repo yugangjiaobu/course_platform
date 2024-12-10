@@ -7,7 +7,7 @@ public class CourseAssignmentDTO {
     private String title;
     private String description;
     private String dueDate;
-    private String score;
+    private Double score;
     private String attachment;
     private List<SubmissionDTO> submissions;
 
@@ -43,11 +43,11 @@ public class CourseAssignmentDTO {
         this.dueDate = dueDate;
     }
 
-    public String getScore() {
+    public Double getScore() {
         return score;
     }
 
-    public void setScore(String score) {
+    public void setScore(Double score) {
         this.score = score;
     }
 
