@@ -34,17 +34,17 @@
 
       <h3>我点赞的帖子</h3>
       <ul class="list">
-        <li v-for="post in likeList" :key="post.postid" @click="goToPost(post.coursename, post.postid)">
+        <li v-for="post in likeList" :key="post.postid" @click="goToPost(post.courseName, post.postId)">
           <h4>{{ post.title }}</h4>
-          <p>课程: {{ post.coursename }} | 作者: {{ post.author }} | 时间: {{ post.time }}</p>
+          <p>课程: {{ post.courseName }} | 作者: {{ post.author }} | 时间: {{ post.time }}</p>
         </li>
       </ul>
 
       <h3>我发布的帖子</h3>
       <ul class="list">
-        <li v-for="post in myPostList" :key="post.postid" @click="goToPost(post.coursename, post.postid)">
+        <li v-for="post in myPostList" :key="post.postid" @click="goToPost(post.courseName, post.postId)">
           <h4>{{ post.title }}</h4>
-          <p>课程: {{ post.coursename }} | 时间: {{ post.time }}</p>
+          <p>课程: {{ post.courseName }} | 时间: {{ post.time }}</p>
         </li>
       </ul>
     </div>
