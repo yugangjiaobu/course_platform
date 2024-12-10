@@ -383,6 +383,7 @@ export const getLikePost = async () => {
 				Authorization: `Bearer ${token}`
 			}
 		});
+		console.log(response.data);
 		return response.data;
 	} catch (error) {
 		console.log(error.response);
@@ -398,6 +399,7 @@ export const getMyPost = async () => {
 				Authorization: `Bearer ${token}`
 			}
 		});
+		console.log(response.data);
 		return response.data;
 	} catch (error) {
 		console.log(error.response);
@@ -460,6 +462,7 @@ export const getTestDetail = async (coursename,testname) => {
 export const setExam = async (formdata) => {
 	try {
 		const token = getToken();
+
 		const response = await axios.post('/api/setexam',formdata,{
 			headers: {
 				Authorization: `Bearer ${token}`
@@ -492,6 +495,7 @@ export const setTest = async (formdata) => {
 export const uploadTest = async (formdata) => {
 	try {
 		const token = getToken();
+		console.log(formdata);
 		const response = await axios.post('/api/uploadtest',formdata,{
 			headers: {
 				Authorization: `Bearer ${token}`
