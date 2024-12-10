@@ -13,4 +13,6 @@ public interface LikeDAO {
 
     int countLikesByPostId(String postId);
     Like findByPostIdAndUserId(String postId, String userId);
+
+    List<Like> findLikesByUserId(String userId);
 }
