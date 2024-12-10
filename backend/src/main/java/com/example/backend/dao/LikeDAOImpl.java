@@ -16,6 +16,8 @@ public class LikeDAOImpl implements LikeDAO {
     private static final String COUNT_LIKES_SQL = "SELECT COUNT(*) FROM likes WHERE post_id = ?";
     private static final String FIND_BY_POST_AND_USER_SQL = "SELECT * FROM likes WHERE post_id = ? AND user_id = ?";
 
+    private static final String FIND_LIKES_BY_USER_SQL = "SELECT * FROM likes WHERE user_id = ?";
+
     @Override
     public void save(Like like) {
         try (Connection conn = DatabaseUtil.getConnection();
@@ -130,6 +132,27 @@ public class LikeDAOImpl implements LikeDAO {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    @Override
+    public List<Like> findLikesByUserId(String userId) {
+        List<Like> likes = new ArrayList<>();
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(FIND_LIKES_BY_USER_SQL)) {
+            stmt.setString(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Like like = new Like();
+                like.setLikeId(rs.getString("like_id"));
+                like.setPostId(rs.getString("post_id"));
+                like.setUserId(rs.getString("user_id"));
+                like.setCreatedAt(rs.getTimestamp("created_at"));
+                likes.add(like);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return likes;
     }
 
 }
