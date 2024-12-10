@@ -2,10 +2,7 @@ package com.example.backend.service;
 
 import com.example.backend.dao.*;
 import com.example.backend.dto.*;
-import com.example.backend.entity.Course;
-import com.example.backend.entity.CourseAssignment;
-import com.example.backend.entity.StudentAssignment;
-import com.example.backend.entity.User;
+import com.example.backend.entity.*;
 import com.example.backend.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +13,6 @@ import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -98,8 +94,8 @@ public class CourseAssignmentServiceImpl implements CourseAssignmentService {
         // 生成文件路径并保存文件
         String filePath = assignmentDirectory_u + File.separator + file.getOriginalFilename();
         file.transferTo(new File(filePath));
-        System.out.println(filePath);
-        System.out.println(assignmentId);
+        //System.out.println(filePath);
+        //System.out.println(assignmentId);
 
         // 创建学生作业记录
         StudentAssignment submission = new StudentAssignment();
@@ -164,14 +160,19 @@ public class CourseAssignmentServiceImpl implements CourseAssignmentService {
         // 解析JWT token获取用户角色
         String jwtToken = extractJwtToken(token);
         String role = JWTUtil.extractRole(jwtToken);
+        String userId = JWTUtil.extractUserID(jwtToken);
         boolean isTeacher = role.equals("teacher"); // 判断请求方是否是教师
 
         return assignments.stream()
                 .map(assignment -> {
+
+                    StudentAssignment studentAssignment = studentAssignmentDAO.getStudentAssignmentById(assignment.getAssignmentId(), userId);
+
                     // 构建 CourseAssignmentDTO
                     CourseAssignmentDTO assignmentDTO = new CourseAssignmentDTO();
                     assignmentDTO.setId(assignment.getAssignmentId());
                     assignmentDTO.setTitle(assignment.getTitle());
+                    assignmentDTO.setScore(studentAssignment.getGrade());
                     assignmentDTO.setDescription(assignment.getDescription());
                     assignmentDTO.setDueDate(assignment.getDeadline().toString());
 
