@@ -13,4 +13,6 @@ public interface DiscussionDAO {
     List<Discussion> findAllByCourseId(String courseId);
     List<String> findImagesByPostId(String postId);
     Discussion findByImageId(String imageId);
+
+    List<Discussion> findPostsByUserId(String userId);
 }
