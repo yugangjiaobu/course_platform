@@ -19,6 +19,8 @@ public class DiscussionDAOImpl implements DiscussionDAO {
     private static final String FIND_IMAGES_BY_POST_ID_SQL = "SELECT image_id FROM discussions WHERE post_id = ?";
     private static final String FIND_BY_IMAGE_ID_SQL = "SELECT * FROM discussions WHERE image_id = ?";
 
+    private static final String FIND_BY_USER_ID_SQL = "SELECT * FROM discussions WHERE user_id = ?";
+
     @Override
     public void save(Discussion discussion) {
         try (Connection conn = DatabaseUtil.getConnection();
@@ -177,6 +179,35 @@ public class DiscussionDAOImpl implements DiscussionDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return discussion;
+    }
+
+    @Override
+    public List<Discussion> findPostsByUserId(String userId) {
+        List<Discussion> discussions = new ArrayList<>();
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(FIND_BY_USER_ID_SQL)) {
+            stmt.setString(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                discussions.add(mapResultSetToDiscussion(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return discussions;
+    }
+
+    private Discussion mapResultSetToDiscussion(ResultSet rs) throws SQLException {
+        Discussion discussion = new Discussion();
+        discussion.setPostId(rs.getString("post_id"));
+        discussion.setCourseId(rs.getString("course_id"));
+        discussion.setUserId(rs.getString("user_id"));
+        discussion.setContent(rs.getString("content"));
+        discussion.setCreatedAt(rs.getTimestamp("created_at"));
+        discussion.setImageId(rs.getString("image_id"));
+        discussion.setImagePath(rs.getString("image_path"));
+        discussion.setTitle(rs.getString("title"));
         return discussion;
     }
 
