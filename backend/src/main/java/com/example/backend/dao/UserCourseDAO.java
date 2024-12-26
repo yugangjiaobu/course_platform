@@ -10,4 +10,5 @@ public interface UserCourseDAO {
     UserCourse getUserCourse(String userId, String courseId) throws SQLException;
     List<UserCourse> getAllUserCourses(String userId) throws SQLException;
     void deleteUserCourse(String userId, String courseId) throws SQLException;
+    List<UserCourse> getAllStudentsByCourseId(String courseId) throws SQLException;
 }

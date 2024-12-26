@@ -2,13 +2,12 @@ package com.example.backend.dao;
 
 import com.example.backend.entity.StudentAssignment;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface StudentAssignmentDAO {
-    void addStudentAssignment(StudentAssignment submission) throws SQLException;
-    StudentAssignment getStudentAssignment(int submissionId) throws SQLException;
-    List<StudentAssignment> getAllStudentAssignments() throws SQLException;
-    void updateStudentAssignment(StudentAssignment submission) throws SQLException;
-    void deleteStudentAssignment(int submissionId) throws SQLException;
+    List<StudentAssignment> getSubmissionsByAssignment(String assignmentId);
+    StudentAssignment getSubmissionByStudentAndAssignment(String studentId, String assignmentId);
+    void saveSubmission(StudentAssignment submission);
+    StudentAssignment getStudentAssignmentById(String assignmentId, String studentId);
+    void updateScore(StudentAssignment studentAssignment);
 }

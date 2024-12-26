@@ -6,11 +6,11 @@
 		</div>
 		<div class="show">
 			<div v-if="post.imgs.length" class="imgcontainer">
-				<img v-for="img in post.imgs" :src="img" :alt="post.title" :key="img" />
+				<img v-for="img in post.imgs" :src="baseurl+img" :alt="post.title" :key="img" />
 			</div>
 			<p class="content">{{ post.content }}</p>
 		</div>
-		<button class="like" @click="likePost">{{ post.iflike ? '取消点赞' : '点赞' }} ({{ post.likes }})</button>
+		<button class="like" @click="likePost">{{ post.ifLike ? '取消点赞' : '点赞' }} ({{ post.likes }})</button>
 
 		<div class="comments">
 		<div id="c"><h3>评论</h3><div class="input">
@@ -19,9 +19,9 @@
 			
 		</div>
 			<ul>
-				<li v-for="comment in post.commits" :key="comment.commentid">
+				<li v-for="comment in post.commits" :key="comment.commentId">
 					<p>{{ comment.name }}: {{ comment.content }}</p>
-					<button v-if="comment.ifyours || isTeacher" @click="deleteComment(comment.commentid)">
+					<button v-if="comment.ifYours || isTeacher" @click="deleteComment(comment.commentId)">
 						删除
 					</button>
 				</li>
@@ -48,6 +48,7 @@
 	export default {
 		data() {
 			return {
+        baseurl:'http://localhost:8000',
 				courseName: this.$route.params.name,
 				postid: this.$route.params.postid,
 				post: null,
@@ -81,8 +82,9 @@
 				const formdata = {
 					coursename: this.courseName,
 					postid: this.postid,
-					iflike: !this.post.iflike
+					iflike: !this.post.ifLike
 				};
+        //console.log(formdata);
 				await LikeorUnlike(formdata);
 				this.loadPostDetails();
 				

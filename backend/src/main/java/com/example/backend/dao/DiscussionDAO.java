@@ -10,4 +10,9 @@ public interface DiscussionDAO {
     void update(Discussion discussion);
     void delete(Discussion discussion);
     List<Discussion> findAll();
+    List<Discussion> findAllByCourseId(String courseId);
+    List<String> findImagesByPostId(String postId);
+    Discussion findByImageId(String imageId);
+
+    List<Discussion> findPostsByUserId(String userId);
 }

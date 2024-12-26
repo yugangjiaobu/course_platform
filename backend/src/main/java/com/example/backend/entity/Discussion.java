@@ -8,8 +8,10 @@ public class Discussion {
     private String userId;
     private String content;
     private Timestamp createdAt;
+    private String imageId;
+    private String imagePath;
+    private String title;
 
-    // Getters and setters...
     public String getPostId() {
         return postId;
     }
@@ -48,5 +50,29 @@ public class Discussion {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(String imageId) {
+        this.imageId = imageId;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

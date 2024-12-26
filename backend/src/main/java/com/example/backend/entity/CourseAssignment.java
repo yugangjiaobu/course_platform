@@ -1,38 +1,22 @@
 package com.example.backend.entity;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 public class CourseAssignment {
-    private int assignmentId;
+    private String assignmentId;
     private String courseId;
     private String title;
     private String description;
-    private LocalDateTime deadline;
+    private Timestamp deadline;
     private String createdBy;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 
-    // Constructors
-    public CourseAssignment() {}
-
-    public CourseAssignment(int assignmentId, String courseId, String title, String description, LocalDateTime deadline,
-                            String createdBy, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.assignmentId = assignmentId;
-        this.courseId = courseId;
-        this.title = title;
-        this.description = description;
-        this.deadline = deadline;
-        this.createdBy = createdBy;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
-    // Getters and setters
-    public int getAssignmentId() {
+    public String getAssignmentId() {
         return assignmentId;
     }
 
-    public void setAssignmentId(int assignmentId) {
+    public void setAssignmentId(String assignmentId) {
         this.assignmentId = assignmentId;
     }
 
@@ -60,11 +44,11 @@ public class CourseAssignment {
         this.description = description;
     }
 
-    public LocalDateTime getDeadline() {
+    public Timestamp getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(LocalDateTime deadline) {
+    public void setDeadline(Timestamp deadline) {
         this.deadline = deadline;
     }
 
@@ -76,19 +60,19 @@ public class CourseAssignment {
         this.createdBy = createdBy;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public Timestamp getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
 }
