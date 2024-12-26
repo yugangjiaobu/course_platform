@@ -54,7 +54,7 @@
 					<strong>考试时间：</strong>{{ exam.time }}<br>
 					<strong>注意事项：</strong>{{ exam.notice }}<br>
 					<strong>试卷下载：</strong><a :href="exam.url" download>下载</a><br>
-					<strong>试卷编号：</strong>{{ exam.seatId }}<br>
+					<strong>座位编号：</strong>{{ exam.seatId }}<br>
 				</li>
 			</ul>
 		</div>
